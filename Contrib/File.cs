@@ -10,7 +10,7 @@ namespace Contrib
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("sup");
+            Console.WriteLine("sup Kewin");
             Console.ReadKey();
         }
         private string Id;
