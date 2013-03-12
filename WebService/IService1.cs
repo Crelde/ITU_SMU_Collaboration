@@ -45,7 +45,7 @@ namespace WebService
         [OperationContract]
         bool GetRightsForFile(int fileId, string email);
 
-        // pussy out!
+        // pussy out! 
         [OperationContract]
         bool LogOut();
 
