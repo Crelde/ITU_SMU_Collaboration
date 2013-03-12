@@ -10,7 +10,7 @@ namespace WebService
  
     public class Service1 : IService1
     {
-
+        // TODO - Remote this comment.
         static void Main(string[] args)
         {
             Console.WriteLine("sup");
