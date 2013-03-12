@@ -24,7 +24,7 @@ namespace Contrib
 
         private string Description;
         public string description { get { return Description; } set { Description = value; } }
-
+        //derp
         private DateTime Date;
         public DateTime date { get { return Date; } set { Date = value; } }
 
