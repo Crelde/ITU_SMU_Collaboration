@@ -7,6 +7,8 @@ namespace Contrib
 {
     public class User
     {
+
+        //Vildbrad was here
         private string Email;
         public string email { get { return Email; } set { Email = value; } } // TODO: check if valid E-mail? crelde says: add regex to check if it looks like an email
 
