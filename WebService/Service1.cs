@@ -104,7 +104,16 @@ namespace WebService
 
         bool IService1.SharePackage(int pId, List<string> emails)
         {
-            throw new NotImplementedException();
+            // Det nok bare mig der er helt væk, men ved ikk lige hvor vi får den rigtige package fra.
+            //Package p = GetPackageById(pId);??
+            Contrib.Package p = new Contrib.Package();
+            foreach (string e in emails)
+            {
+                //                          We need a method like this i think. - Crelde
+                Contrib.User u = Contrib.User.GetUserByEmail(e);
+                    p.addUser(u);
+            }
+                        
         }
 
         bool IService1.AddToPackage(List<int> fIds, int pId)

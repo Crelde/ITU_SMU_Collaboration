@@ -15,7 +15,10 @@ namespace Contrib
 
         public void addUser(User u)
         {
-            Users.Add(u);
+            if (!Users.Contains(u))
+            {
+                Users.Add(u);
+            }
         }
 
         public void removeUser(User u)
