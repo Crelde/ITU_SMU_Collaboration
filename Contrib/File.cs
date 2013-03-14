@@ -31,6 +31,44 @@ namespace Contrib
         private FileType Type;
         public FileType type { get { return Type; } set { Type = value; } }
 
+        private List<string> Tags;
+        public List<string> tags { get { return Tags; } set { Tags = value; } }
+
         public enum FileType { doc, vid, sound } // others??
+
+        public void AddTag(string tagName)
+        {
+            bool exists = false;
+            for (int i = 0; i == tags.Count; i++)
+            {
+                if (tags.ElementAt(i).CompareTo(tagName) == 1)
+                {
+                    exists = true;
+                }
+            }
+            if (!exists)
+            {
+                tags.Add(tagName);
+
+            }
+        }
+
+        public void RemoveTag(string tagName)
+        {
+            bool exists = false;
+            for (int i = 0; i == tags.Count; i++)
+            {
+                if (tags.ElementAt(i).CompareTo(tagName) == 1)
+                {
+                    exists = true;
+                    tags.ElementAt(i).Remove(i);
+                }
+            }
+            if (!exists)
+            {
+                Console.WriteLine("Tag does not exist!");
+
+            }
+        }
     }
 }

@@ -67,14 +67,19 @@ namespace WebService
             throw new NotImplementedException();
         }
 
-        bool IService1.AddTag(int fileId, string tag)
+        void IService1.AddTag(int fileId, string tag)
         {
-            throw new NotImplementedException();
+            //Eh not sure where we get the File object from the fileId from, to be discussed, temporary solution:
+            //File f = GetFileById(fileId);??
+            Contrib.File f = new Contrib.File();
+            //The AddTag method in file check if it already exists and adds it if it doesn't
+            f.AddTag(tag);
         }
 
-        bool IService1.RemoveTag(int fileId, string tag)
+        void IService1.RemoveTag(int fileId, string tag)
         {
-            throw new NotImplementedException();
+            Contrib.File f = new Contrib.File();
+            f.RemoveTag(tag);
         }
 
         List<Contrib.Package> IService1.GetPackagesForUser(string email)
