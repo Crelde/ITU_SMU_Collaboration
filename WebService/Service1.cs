@@ -4,126 +4,174 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using Contrib;
 
 namespace WebService
 {
- 
     public class Service1 : IService1
     {
-        // TODO - Remote this comment.
-        static void Main(string[] args)
+        public bool CreateUser(User user)
         {
-            Console.WriteLine("sup");
-            Console.ReadKey();
+            // TODO - Add user to the DB.
+            // Return true if successfull, false if not...
+            throw new NotImplementedException();
         }
 
-        bool IService1.CreateUser(Contrib.User user)
+        public User ReadUser(string email)
+        {
+            // TODO - Change the code below to actually retrieve the user from the DB.
+            User u = new User();
+            u.email = email;
+            u.name = "Dummy User";
+            u.password = "letmein";
+            u.type = User.UserType.standard;
+            // TODO  - Change the above code.
+            return u;
+        }
+
+        public bool UpdateUser(User user)
+        {
+            // TODO - Look up existing user by email in the DB.
+            // Replace found user with the given one.
+            // Return true if succesfull.
+
+            // If user cannot be found, return false.
+            // Don't just interpret it as CreateUser instead.
+
+            throw new NotImplementedException();
+        }
+
+        public bool DeleteUser(string email)
+        {
+            // TODO - Look up existing user by email in the DB.
+            // Delete user if found.
+            // Return true if succesfull.
+
+            // If user cannot be found, return false.
+            throw new NotImplementedException();
+        }
+
+        public bool UploadFile(File file)
         {
             throw new NotImplementedException();
         }
 
-        Contrib.User IService1.ReadUser(string email)
+        public File DownloadFile(int id)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.UpdateUser(Contrib.User user)
+        public bool ReplaceFile(File file)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.DeleteUser(string email)
+        public bool RemoveFile(int id)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.UploadFile(Contrib.File file)
+        public Session LogIn(string email, string password)
         {
             throw new NotImplementedException();
         }
 
-        Contrib.File IService1.DownloadFile(int id)
+        public bool LogOut()
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.ReplaceFile(Contrib.File file)
+        public bool AddTag(int fileId, string tag)
         {
-            throw new NotImplementedException();
-        }
+            // NOTE - Eh not sure where we get the File object from the fileId from, to be discussed, temporary solution:
+            // File f = GetFileById(fileId);??
+            // NOTE - I think we'll get it by querying the underlying DB. :-)
 
-        bool IService1.RemoveFile(int id)
-        {
-            throw new NotImplementedException();
-        }
+            File f = new File();
 
-        Contrib.Session IService1.LogIn(string email, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        bool IService1.LogOut()
-        {
-            throw new NotImplementedException();
-        }
-
-        void IService1.AddTag(int fileId, string tag)
-        {
-            //Eh not sure where we get the File object from the fileId from, to be discussed, temporary solution:
-            //File f = GetFileById(fileId);??
-            Contrib.File f = new Contrib.File();
-            //The AddTag method in file check if it already exists and adds it if it doesn't
+            // NOTE - The AddTag method in file check if it already exists and adds it if it doesn't.
+            // NOTE - Changed the file to use a HashSet instead. Much more appropriate. ;-)
             f.AddTag(tag);
+
+            // NOTE - Method not fully implemented yet.
+            throw new NotImplementedException();
         }
 
-        void IService1.RemoveTag(int fileId, string tag)
+        public bool RemoveTag(int fileId, string tag)
         {
-            Contrib.File f = new Contrib.File();
+            // TODO - Retrieve actual file from DB.
+            // Make changes to file and commit to DB.
+            File f = new File();
             f.RemoveTag(tag);
+
+            // NOTE - Method not fully implemented yet.
+            throw new NotImplementedException();
         }
 
-        List<Contrib.Package> IService1.GetPackagesForUser(string email)
+        public List<Package> GetPackagesForUser(string email)
         {
             throw new NotImplementedException();
         }
 
-        List<Contrib.Package> IService1.SearchMedia(string query)
+        public List<Package> SearchMedia(string query)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.CreatePackage(Contrib.Package p)
+        public bool CreatePackage(Package p)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.DeletePackage(int pId)
+        public bool DeletePackage(int pId)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.SharePackage(int pId, List<string> emails)
+        public bool SharePackage(int pId, List<string> emails)
         {
-            // Det nok bare mig der er helt væk, men ved ikk lige hvor vi får den rigtige package fra.
-            //Package p = GetPackageById(pId);??
-            Contrib.Package p = new Contrib.Package();
+            // NOTE - How do we get the package by id?
+            // Package p = GetPackageById(pId);??
+            // NOTE - By querying the DB i guess... :-/
+
+            Package p = new Package();
             foreach (string e in emails)
             {
-                //                          We need a method like this i think. - Crelde
-                Contrib.User u = Contrib.User.GetUserByEmail(e);
-                    p.addUser(u);
+                //  We need a method like this i think. - Crelde
+                // User u = User.GetUserByEmail(e);
+                // p.addUser(u);
             }
-                        
+
+            // Method is still not done...
+            throw new NotImplementedException();
         }
 
-        bool IService1.AddToPackage(List<int> fIds, int pId)
+        public bool AddToPackage(List<int> fIds, int pId)
         {
             throw new NotImplementedException();
         }
 
-        bool IService1.RemoveFromPackage(List<int> fIds, int pId)
+        public bool RemoveFromPackage(List<int> fIds, int pId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public User.UserType GetAccountType(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool GetRightsForFile(int fileId, string email)
         {
             throw new NotImplementedException();
         }
     }
+
+    /*
+     * NOTE - 
+     *  It seems a lot of the questions are about retrieving data.
+     *  Many of the solutions seem to be queries to the DB.
+     *  Maybe we should make a class for DB interaction that exposes
+     *  the required data retrieval features as methods? :-)
+     */
 }

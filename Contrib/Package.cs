@@ -7,18 +7,15 @@ namespace Contrib
 {
     public class Package
     {
-        private List<User> Users;
-        public List<User> users { get { return Users; } set { Users = value; } }
+        private HashSet<User> Users;
+        public HashSet<User> users { get { return Users; } set { Users = value; } }
 
-        private List<File> Files;
-        public List<File> files { get { return Files; } set { Files = value; } }
+        private HashSet<File> Files;
+        public HashSet<File> files { get { return Files; } set { Files = value; } }
 
         public void addUser(User u)
         {
-            if (!Users.Contains(u))
-            {
-                Users.Add(u);
-            }
+            Users.Add(u);
         }
 
         public void removeUser(User u)
@@ -26,12 +23,12 @@ namespace Contrib
             Users.Remove(u);
         }
 
-        public void addUser(File f)
+        public void addFile(File f)
         {
             Files.Add(f);
         }
 
-        public void removeUser(File f)
+        public void removeFile(File f)
         {
             Files.Remove(f);
         }

@@ -10,8 +10,6 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("sup");
-            Console.ReadKey();
         }
     }
 }

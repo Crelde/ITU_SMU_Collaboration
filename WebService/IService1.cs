@@ -4,52 +4,68 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using Contrib;
 
 namespace WebService
 {
-    //The many bools is supposed to tell if the method went good or bad, seems excessive to have it on every method, to be discussed.
+    /*
+     * NOTE - Most of the booleans are to indicate the success or failure of executing the given method.
+     * TODO - Consider using a different format for reporting the success of an operation.
+     */
     [ServiceContract]
     public interface IService1
     {
         [OperationContract]
-        bool CreateUser(Contrib.User user);
+        bool CreateUser(User user);
 
         [OperationContract]
-        Contrib.User ReadUser(string email);
+        User ReadUser(string email);
 
         [OperationContract]
-        bool UpdateUser(Contrib.User user);
+        bool UpdateUser(User user);
 
         [OperationContract]
         bool DeleteUser(string email);
 
         [OperationContract]
-        bool UploadFile(Contrib.File file);
+        bool UploadFile(File file);
 
         [OperationContract]
-        Contrib.File DownloadFile(int id);
+        File DownloadFile(int id);
 
-        // Should this specify which file to replace the file with? or should that job also go the single argument?
+        // 
+        /*
+         * NOTE - Should this specify which file to replace the file with, or should that job also go the single argument?
+         * 
+         * NOTE - As I see it, we have two options:
+         *      1 Change it to ReplaceFile(int fileId, File file)
+         *        Which replaces the file with the given id with the new file.
+         *      2 Keep it as it is. Use the given files id to match an existing files id, and overwrite that file.
+         *      
+         *        In both cases, an exception should be thrown if no matching file was found, since it indicates and error
+         *        at either the client or server side. I'd suggest it does NOT just interpret it as a call to UploadFile!
+         * 
+         */
         [OperationContract]
-        bool ReplaceFile(Contrib.File file);
+        bool ReplaceFile(File file);
 
         [OperationContract]
         bool RemoveFile(int id);
 
         [OperationContract]
-        Contrib.Session LogIn(string email, string password);
+        Session LogIn(string email, string password);
 
         [OperationContract]
-        Contrib.User.UserType GetAccountType(string email);
+        User.UserType GetAccountType(string email);
 
         [OperationContract]
         bool GetRightsForFile(int fileId, string email);
 
-        // pussy out! 
         [OperationContract]
         bool LogOut();
 
-        // we could also make a tag class instead of just parsing a string
+        // NOTE - Maybe we should make a Tag class instead?
+        // NOTE - That depends, do we need features that a string doesn't provide?
         [OperationContract]
         bool AddTag(int fileId, string tag);
 
@@ -57,14 +73,15 @@ namespace WebService
         bool RemoveTag(int fileId, string tag);
 
         [OperationContract]
-        List<Contrib.Package> GetPackagesForUser(string email);
+        List<Package> GetPackagesForUser(string email);
 
-        // Depending on how we want to do this we can return packages or files here its package
+        // NOTE - Depending on how we want to do this we can return packages or files here its package.
+        // NOTE - I think we agreed on putting files in packages also. I might be wrong... :-/
         [OperationContract]
-        List<Contrib.Package> SearchMedia(string query);
+        List<Package> SearchMedia(string query);
 
         [OperationContract]
-        bool CreatePackage(Contrib.Package p);
+        bool CreatePackage(Package p);
 
         [OperationContract]
         bool DeletePackage(int pId);
@@ -77,9 +94,5 @@ namespace WebService
 
         [OperationContract]
         bool RemoveFromPackage(List<int> fIds, int pId);
-
-
-
     }
-
 }
