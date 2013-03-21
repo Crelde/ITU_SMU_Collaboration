@@ -150,7 +150,7 @@ namespace Server
 
         public UserType GetAccountType(string email)
         {
-            throw new NotImplementedException();
+            return DB.getAccountType(email);
         }
 
         public bool GetRightsForFile(int fileId, string email)

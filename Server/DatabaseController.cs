@@ -43,7 +43,7 @@ namespace Server
             }
         }
 
-        public static UserType GetAccountType(string email)
+        public static UserType getAccountType(string email)
         {
             return getUserByEmail(email).Type;
         }
