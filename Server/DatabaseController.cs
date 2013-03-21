@@ -45,16 +45,7 @@ namespace Server
 
         public static UserType GetAccountType(string email)
         {
-
-            using (var db = new RentingContext())
-            {
-
-                var query = from u in db.Users
-                            where u.Email.Equals(email)
-                            select u.Type;
-                return query.FirstOrDefault<UserType>();
-
-            }
+            return getUserByEmail(email).Type;
         }
     }
 }
