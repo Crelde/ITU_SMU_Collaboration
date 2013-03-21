@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using Contrib;
+
 
 namespace WebService
 {
@@ -19,6 +19,7 @@ namespace WebService
 
         public User ReadUser(string email)
         {
+            /*
             // TODO - Change the code below to actually retrieve the user from the DB.
             User u = new User();
             u.email = email;
@@ -27,6 +28,8 @@ namespace WebService
             u.type = User.UserType.standard;
             // TODO  - Change the above code.
             return u;
+             * */
+            return null;
         }
 
         public bool UpdateUser(User user)
@@ -70,12 +73,12 @@ namespace WebService
         {
             throw new NotImplementedException();
         }
-
+        /*
         public Session LogIn(string email, string password)
         {
             throw new NotImplementedException();
         }
-
+        */
         public bool LogOut()
         {
             throw new NotImplementedException();
@@ -91,7 +94,7 @@ namespace WebService
 
             // NOTE - The AddTag method in file check if it already exists and adds it if it doesn't.
             // NOTE - Changed the file to use a HashSet instead. Much more appropriate. ;-)
-            f.AddTag(tag);
+            //f.AddTag(tag);
 
             // NOTE - Method not fully implemented yet.
             throw new NotImplementedException();
@@ -102,7 +105,7 @@ namespace WebService
             // TODO - Retrieve actual file from DB.
             // Make changes to file and commit to DB.
             File f = new File();
-            f.RemoveTag(tag);
+            //f.RemoveTag(tag);
 
             // NOTE - Method not fully implemented yet.
             throw new NotImplementedException();
@@ -156,7 +159,7 @@ namespace WebService
             throw new NotImplementedException();
         }
 
-        public User.UserType GetAccountType(string email)
+        public UserType GetAccountType(string email)
         {
             throw new NotImplementedException();
         }

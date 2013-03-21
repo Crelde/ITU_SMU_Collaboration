@@ -4,7 +4,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
-using Contrib;
 
 namespace WebService
 {
@@ -52,11 +51,12 @@ namespace WebService
         [OperationContract]
         bool RemoveFile(int id);
 
+        /*
         [OperationContract]
         Session LogIn(string email, string password);
-
+        */
         [OperationContract]
-        User.UserType GetAccountType(string email);
+        UserType GetAccountType(string email);
 
         [OperationContract]
         bool GetRightsForFile(int fileId, string email);
