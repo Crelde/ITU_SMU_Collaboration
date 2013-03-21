@@ -4,11 +4,15 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
+using DB = Server.DatabaseController;
 
 namespace Server
 {
+
     public class Service : IService
     {
+
+
         public bool CreateUser(User user)
         {
             // TODO - Add user to the DB.
@@ -18,17 +22,7 @@ namespace Server
 
         public User ReadUser(string email)
         {
-            /*
-            // TODO - Change the code below to actually retrieve the user from the DB.
-            User u = new User();
-            u.email = email;
-            u.name = "Dummy User";
-            u.password = "letmein";
-            u.type = User.UserType.standard;
-            // TODO  - Change the above code.
-            return u;
-             * */
-            return null;
+            return DB.getUserByEmail(email);
         }
 
         public bool UpdateUser(User user)
@@ -45,12 +39,7 @@ namespace Server
 
         public bool DeleteUser(string email)
         {
-            // TODO - Look up existing user by email in the DB.
-            // Delete user if found.
-            // Return true if succesfull.
-
-            // If user cannot be found, return false.
-            throw new NotImplementedException();
+            return DB.deleteUserByEmail(email);
         }
 
         public bool UploadFile(File file)
