@@ -12,7 +12,7 @@ namespace Server
         static void Main(string[] args)
         {
             // Uncomment to reset DB and apply changes.
-            Database.SetInitializer(new RentingContextInitializer());
+            //Database.SetInitializer(new RentingContextInitializer());
 
             using (var db = new RentingContext())
             {
@@ -30,20 +30,7 @@ namespace Server
                 Console.ReadKey();
             }
         }
-    }
-
-    public class RentingContext : DbContext
-    {
-        public DbSet<User> Users { get; set; }
-
-        public DbSet<Right> Rights { get; set; }
-
-        public DbSet<Package> Packages { get; set; }
-
-        public DbSet<File> Files { get; set; }
-
-        public DbSet<Tag> Tags { get; set; }
-    }
+    }    
 
     public class RentingContextInitializer : DropCreateDatabaseAlways<RentingContext>
     {
