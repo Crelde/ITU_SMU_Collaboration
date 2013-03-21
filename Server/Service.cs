@@ -5,10 +5,9 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-
-namespace WebService
+namespace Server
 {
-    public class Service1 : IService1
+    public class Service : IService
     {
         public bool CreateUser(User user)
         {

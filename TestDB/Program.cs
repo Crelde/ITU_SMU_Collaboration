@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using Server;
 
 
-namespace WebService
+namespace Server
 {
     class Program
     {
         static void Main(string[] args)
         {
-            // COMMENT FOR FUN
             // Uncomment to reset DB and apply changes.
             Database.SetInitializer(new RentingContextInitializer());
 
@@ -50,72 +50,88 @@ namespace WebService
         protected override void Seed(RentingContext context)
         {
             // Prepare users.
-            var u1 = new User {
+            var u1 = new User
+            {
                 Email = "author@books.com",
                 Password = "iwritebooks",
                 Type = UserType.standard
             };
 
-            var u2 = new User {
+            var u2 = new User
+            {
                 Email = "student@school.com",
                 Password = "ireadbooks",
                 Type = UserType.standard
             };
 
-            var u3 = new User {
+            var u3 = new User
+            {
                 Email = "admin@commonknowledge.com",
                 Password = "iownthisshit",
                 Type = UserType.admin
             };
 
-            var u4 = new User {
+            var u4 = new User
+            {
                 Email = "everybody@loves.it",
                 Password = "damnrighttheydo",
                 Type = UserType.standard
             };
 
             // Prepare files.
-            var f1 = new File {
+            var f1 = new File
+            {
                 Name = "Functional Programming using F#",
                 Data = new byte[] { 1, 2 },
                 Type = FileType.text,
                 Description = "This book is awesome!",
                 Origin = "Hansel and Rischel",
                 Date = DateTime.Now,
-                Owner = u1 };
+                Owner = u1
+            };
 
-            var f2 = new File {
+            var f2 = new File
+            {
                 Name = "Mudkip",
                 Data = new byte[] { 1, 2 },
                 Type = FileType.image,
                 Description = "I head you like 'em!",
                 Origin = "Nintendo",
                 Date = DateTime.Now.AddDays(-30),
-                Owner = u4 };
+                Owner = u4
+            };
 
-            var f3 = new File {
+            var f3 = new File
+            {
                 Name = "Project Management for Information Systems",
                 Data = new byte[] { 1, 2 },
                 Type = FileType.text,
                 Description = "Old people seem to love it...",
                 Origin = "Cadle and Yeates",
-                Owner = u1 };
+                Owner = u1
+            };
 
             // Prepare packages.
-            var p1 = new Package {
+            var p1 = new Package
+            {
                 Name = "4th Semester Books",
                 Description = "Books from our 4th semester.",
-                Files = new List<File> { f1, f3 } };
+                Files = new List<File> { f1, f3 }
+            };
 
-            var p2 = new Package {
+            var p2 = new Package
+            {
                 Name = "Awesome Stuff",
                 Description = "All sorts of awesome stuff.",
-                Files = new List<File> { f1, f2 } };
+                Files = new List<File> { f1, f2 }
+            };
 
-            var p3 = new Package {
+            var p3 = new Package
+            {
                 Name = "Just Mudkip",
                 Description = "A single Mudkip image.",
-                Files = new List<File> { f2 } };
+                Files = new List<File> { f2 }
+            };
 
             // Add tags (and thus their tagged files, and those files owners) to the context.
             new List<Tag>
@@ -149,7 +165,7 @@ namespace WebService
                     Type = RightsType.manage,
                     User = u3,
                     Package = p2}
-            }.ForEach(r => context.Rights.Add(r));            
+            }.ForEach(r => context.Rights.Add(r));
 
             // Save the changes.
             context.SaveChanges();

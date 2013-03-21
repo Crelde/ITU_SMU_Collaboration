@@ -5,14 +5,14 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.Text;
 
-namespace WebService
+namespace Server
 {
     /*
      * NOTE - Most of the booleans are to indicate the success or failure of executing the given method.
      * TODO - Consider using a different format for reporting the success of an operation.
      */
     [ServiceContract]
-    public interface IService1
+    public interface IService
     {
         [OperationContract]
         bool CreateUser(User user);
@@ -32,7 +32,6 @@ namespace WebService
         [OperationContract]
         File DownloadFile(int id);
 
-        // 
         /*
          * NOTE - Should this specify which file to replace the file with, or should that job also go the single argument?
          * 
