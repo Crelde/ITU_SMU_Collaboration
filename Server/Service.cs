@@ -15,9 +15,7 @@ namespace Server
 
         public bool CreateUser(User user)
         {
-            // TODO - Add user to the DB.
-            // Return true if successfull, false if not...
-            throw new NotImplementedException();
+            return DB.addUser(user);
         }
 
         public User ReadUser(string email)
@@ -27,14 +25,7 @@ namespace Server
 
         public bool UpdateUser(User user)
         {
-            // TODO - Look up existing user by email in the DB.
-            // Replace found user with the given one.
-            // Return true if succesfull.
-
-            // If user cannot be found, return false.
-            // Don't just interpret it as CreateUser instead.
-
-            throw new NotImplementedException();
+            return DB.updateUser(user);
         }
 
         public bool DeleteUser(string email)

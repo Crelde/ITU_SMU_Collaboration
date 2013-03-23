@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,36 @@ namespace Server
         {
             using (var db = new RentingContext())
             {
-                var query = from u in db.Users
-                            where u.Email.Equals(email)
-                            select u;
-                return query.FirstOrDefault<User>();
+                return db.Users.Find(email);
             }
+        }
+
+        public static bool addUser(User user)
+        {
+            if (getUserByEmail(user.Email) != null)
+                return false;
+
+            using (var db = new RentingContext())
+            {
+                db.Users.Add(user);
+                db.SaveChanges();
+                return true;
+            }   
+        }
+
+        public static bool updateUser(User newUser)
+        {
+            using (var db = new RentingContext())
+            {
+                var oldUser = db.Users.Find(newUser.Email);
+                if (oldUser == null)
+                    return false;
+
+                DbEntityEntry entry = db.Entry(oldUser);
+                entry.CurrentValues.SetValues(newUser);
+                db.SaveChanges();
+                return true;
+            }  
         }
 
         public static bool deleteUserByEmail(string email)
@@ -26,8 +52,7 @@ namespace Server
             {
                 try
                 {
-                    var u = new User() { Email = email };
-                    db.Entry(u).State = EntityState.Deleted;
+                    db.Entry(db.Users.Find(email)).State = EntityState.Deleted;
                     db.SaveChanges();
                     return true;
                 }
