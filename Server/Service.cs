@@ -9,161 +9,133 @@ using DB = Server.DatabaseController;
 
 namespace Server
 {
-
     public class Service : IService
     {
-
-
+        // TODO - Test on Server
         public bool CreateUser(User user)
         {
-            // TODO - Add user to the DB.
-            // Return true if successfull, false if not...
-            throw new NotImplementedException();
+            return DB.CreateUser(user);
         }
 
+        // TODO - Test on Server
         public User ReadUser(string email)
         {
-            return DB.getUserByEmail(email);
+            return DB.GetUserByEmail(email);
         }
 
+        // TODO - Test on Server
         public bool UpdateUser(User user)
         {
-            // TODO - Look up existing user by email in the DB.
-            // Replace found user with the given one.
-            // Return true if succesfull.
-
-            // If user cannot be found, return false.
-            // Don't just interpret it as CreateUser instead.
-
-            throw new NotImplementedException();
+            return DB.UpdateUser(user);
         }
 
+        // TODO - Test on Server
         public bool DeleteUser(string email)
         {
-            return DB.deleteUserByEmail(email);
+            return DB.DeleteUserByEmail(email);
         }
 
+        // TODO - Test
         public bool UploadFile(File file)
         {
-            throw new NotImplementedException();
+            return DB.CreateFile(file);
         }
 
+        // TODO - Test
         public File DownloadFile(int id)
         {
-            throw new NotImplementedException();
+            return DB.GetFileById(id);
         }
 
+        // TODO - Test
         public bool ReplaceFile(File file)
         {
-            throw new NotImplementedException();
+            return DB.ReplaceFile(file);
         }
 
+        // TODO - Test
         public bool RemoveFile(int id)
         {
-            throw new NotImplementedException();
+            return DB.RemoveFileById(id);
         }
-        /*
+
+        /* TODO - Implement
         public Session LogIn(string email, string password)
         {
             throw new NotImplementedException();
         }
         */
+
+        // TODO - Implement
         public bool LogOut()
         {
             throw new NotImplementedException();
         }
 
+        // TODO - Test
         public bool AddTag(int fileId, string tag)
         {
-            // NOTE - Eh not sure where we get the File object from the fileId from, to be discussed, temporary solution:
-            // File f = GetFileById(fileId);??
-            // NOTE - I think we'll get it by querying the underlying DB. :-)
-
-            File f = new File();
-
-            // NOTE - The AddTag method in file check if it already exists and adds it if it doesn't.
-            // NOTE - Changed the file to use a HashSet instead. Much more appropriate. ;-)
-            //f.AddTag(tag);
-
-            // NOTE - Method not fully implemented yet.
-            throw new NotImplementedException();
+            return DB.AddTag(fileId, tag);
         }
 
+        // TODO - Test
         public bool RemoveTag(int fileId, string tag)
         {
-            // TODO - Retrieve actual file from DB.
-            // Make changes to file and commit to DB.
-            File f = new File();
-            //f.RemoveTag(tag);
-
-            // NOTE - Method not fully implemented yet.
-            throw new NotImplementedException();
+            return DB.RemoveTag(fileId, tag);
         }
 
+        // TODO - Test
         public List<Package> GetPackagesForUser(string email)
         {
-            throw new NotImplementedException();
+            return DB.GetPackagesByEmail(email);
         }
 
+        // TODO - Implement
         public List<Package> SearchMedia(string query)
         {
             throw new NotImplementedException();
         }
 
-        public bool CreatePackage(Package p)
+        // TODO - Test
+        public bool CreatePackage(Package newPackage)
         {
-            throw new NotImplementedException();
+            return DB.CreatePackage(newPackage);
         }
 
-        public bool DeletePackage(int pId)
+        // TODO - Test
+        public bool DeletePackage(int id)
         {
-            throw new NotImplementedException();
+            return DB.DeletePackageById(id);
         }
 
+        // TODO - Test
         public bool SharePackage(int pId, List<string> emails)
         {
-            // NOTE - How do we get the package by id?
-            // Package p = GetPackageById(pId);??
-            // NOTE - By querying the DB i guess... :-/
-
-            Package p = new Package();
-            foreach (string e in emails)
-            {
-                //  We need a method like this i think. - Crelde
-                // User u = User.GetUserByEmail(e);
-                // p.addUser(u);
-            }
-
-            // Method is still not done...
-            throw new NotImplementedException();
+            return DB.SharePackage(pId, emails);            
         }
 
+        // TODO - Test
         public bool AddToPackage(List<int> fIds, int pId)
         {
-            throw new NotImplementedException();
+            return DB.AddToPackage(fIds, pId);
         }
 
+        // TODO - Test
         public bool RemoveFromPackage(List<int> fIds, int pId)
         {
-            throw new NotImplementedException();
+            return DB.RemoveFromPackage(fIds, pId);
         }
 
+        // TODO - Test
         public UserType GetAccountType(string email)
         {
             return DB.getAccountType(email);
         }
 
-        public bool GetRightsForFile(int fileId, string email)
+        // TODO - Test
+        public RightsType GetRightsForFile(int fileId, string email)
         {
-            throw new NotImplementedException();
+            return DB.GetRightsForFile(fileId, email);
         }
     }
-
-    /*
-     * NOTE - 
-     *  It seems a lot of the questions are about retrieving data.
-     *  Many of the solutions seem to be queries to the DB.
-     *  Maybe we should make a class for DB interaction that exposes
-     *  the required data retrieval features as methods? :-)
-     */
 }

@@ -50,7 +50,7 @@ namespace Server
         [OperationContract]
         bool RemoveFile(int id);
 
-        /*
+        /* Uncomment when we know what the fuck we are doing...
         [OperationContract]
         Session LogIn(string email, string password);
         */
@@ -58,7 +58,7 @@ namespace Server
         UserType GetAccountType(string email);
 
         [OperationContract]
-        bool GetRightsForFile(int fileId, string email);
+        RightsType GetRightsForFile(int fileId, string email);
 
         [OperationContract]
         bool LogOut();
