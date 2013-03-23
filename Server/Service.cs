@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.ServiceModel;
@@ -140,7 +141,7 @@ namespace Server
 
         public UserType GetAccountType(string email)
         {
-            throw new NotImplementedException();
+            return DB.getAccountType(email);
         }
 
         public bool GetRightsForFile(int fileId, string email)
