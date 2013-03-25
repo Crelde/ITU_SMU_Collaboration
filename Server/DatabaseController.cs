@@ -23,6 +23,8 @@ namespace Server
 
         public static bool addUser(User user)
         {
+            Contract.Requires(user != null);
+
             if (getUserByEmail(user.Email) != null)
                 return false;
 
@@ -36,6 +38,8 @@ namespace Server
 
         public static bool updateUser(User newUser)
         {
+            Contract.Requires(newUser != null);
+
             using (var db = new RentingContext())
             {
                 var oldUser = db.Users.Find(newUser.Email);
@@ -70,6 +74,8 @@ namespace Server
 
         public static UserType getAccountType(string email)
         {
+            Contract.Requires(email != null);
+
             return getUserByEmail(email).Type;
         }
 
