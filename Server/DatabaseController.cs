@@ -82,8 +82,6 @@ namespace Server
 
         public static bool removeFile(int id)
         {
-            Contract.Requires(id != null);
-
             using (var db = new RentingContext())
             {
                 try
@@ -97,7 +95,48 @@ namespace Server
                     return false;
                 }
             }
-
         }
+
+        public static File getFile(int id)
+        {
+            using (var db = new RentingContext())
+            {
+                return db.Files.Find(id);
+            }
+        }
+
+        public static bool addFile(File file)
+        {
+            Contract.Requires(file != null);
+            
+
+            if (getFile(file.Id) != null)
+                return false;
+
+            using (var db = new RentingContext())
+            {
+                db.Files.Add(file);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
+        public static bool updateFile(File file)
+        {
+            using (var db = new RentingContext())
+            {
+                File dbFile = db.Files.Find(file.Id);
+                if (dbFile == null)
+                    return false;
+
+                db.Files.Remove(dbFile);
+                db.SaveChanges();
+
+                db.Files.Add(file);
+                db.SaveChanges();
+                return true;
+            }
+        }
+
     }
 }

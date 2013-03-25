@@ -12,8 +12,8 @@ namespace Server
         static void Main(string[] args)
         {
             // Uncomment to reset DB and apply changes.
-            //Database.SetInitializer(new RentingContextInitializer());
-
+            Database.SetInitializer(new RentingContextInitializer());
+            /*
             using (var db = new RentingContext())
             {
                 var query = from u in db.Users
@@ -29,6 +29,33 @@ namespace Server
                 Console.WriteLine("Press any key to exit...");
                 Console.ReadKey();
             }
+             * */
+
+
+
+
+            File file = new File();
+
+            file.Description= "Et notepad dokument";
+            file.Data = System.IO.File.ReadAllBytes("D:\\Dropbox\\BSUP diary\\Todo.txt");
+            file.Date = DateTime.Now;
+            file.Name = "Todolist";
+            file.Origin = "Kewin";
+
+            file.Owner = DatabaseController.getUserByEmail("student@school.com");
+
+
+
+            file.Type = FileType.text;
+            file.Id = 4;
+
+            DatabaseController.addFile(file);
+
+             
+
+
+
+
         }
     }    
 
