@@ -51,7 +51,7 @@ namespace Server
 
         public bool RemoveFile(int id)
         {
-            throw new NotImplementedException();
+            return DB.removeFile(id);
         }
         /*
         public Session LogIn(string email, string password)

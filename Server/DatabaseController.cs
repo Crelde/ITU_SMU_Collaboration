@@ -31,7 +31,7 @@ namespace Server
                 db.Users.Add(user);
                 db.SaveChanges();
                 return true;
-            }   
+            }
         }
 
         public static bool updateUser(User newUser)
@@ -46,7 +46,7 @@ namespace Server
                 entry.CurrentValues.SetValues(newUser);
                 db.SaveChanges();
                 return true;
-            }  
+            }
         }
 
         public static bool deleteUserByEmail(string email)
@@ -71,6 +71,27 @@ namespace Server
         public static UserType getAccountType(string email)
         {
             return getUserByEmail(email).Type;
+        }
+
+
+        public static bool removeFile(int id)
+        {
+            Contract.Requires(id != null);
+
+            using (var db = new RentingContext())
+            {
+                try
+                {
+                    db.Entry(db.Files.Find(id)).State = EntityState.Deleted;
+                    db.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+
         }
     }
 }
