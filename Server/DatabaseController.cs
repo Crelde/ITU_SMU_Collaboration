@@ -82,6 +82,8 @@ namespace Server
 
         public static bool removeFile(int id)
         {
+            Contract.Requires(id != null);
+
             using (var db = new RentingContext())
             {
                 try
