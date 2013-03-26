@@ -42,7 +42,7 @@ namespace Server
             file.Name = "Todolist";
             file.Origin = "Kewin";
 
-            file.Owner = DatabaseController.getUserByEmail("student@school.com");
+            file.OwnerEmail = "student@school.com";
 
 
 
