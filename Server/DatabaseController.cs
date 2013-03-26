@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity.Infrastructure;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Text;
@@ -78,8 +79,11 @@ namespace Server
         [Pure]
         public static UserType getAccountType(string email)
         {
+            Contract.Requires(email != null);
             return GetUserByEmail(email).Type;
         }
+
+
 
         public static bool CreatePackage(Package newPackage)
         {
