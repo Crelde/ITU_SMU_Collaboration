@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
+
 
 namespace Server.DataContracts
 {
-    class User
+    [DataContract]
+    public class User
     {
+        [DataMember]
+        public string Email { get; set; }
+
+        [DataMember]
+        public string Password { get; set; }
+
+        [DataMember]
+        public UserType Type { get; set; }
     }
 }

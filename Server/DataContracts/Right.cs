@@ -1,12 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Server.DataContracts
 {
-    class Right
+    [DataContract]
+    public class Right
     {
+        [DataMember]
+        public string UserEmail { get; set; }
+
+        [DataMember]
+        public RightsType Type { get; set; }
+
+        [DataMember]
+        public int ItemId { get; set; }
+       
+        [DataMember]
+        public DateTime? Until { get; set; }
     }
 }

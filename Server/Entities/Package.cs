@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Server.Entities
 {
-    class Package
+    public class Package : Item
     {
+        public virtual ICollection<File> Files { get; set; }
     }
 }

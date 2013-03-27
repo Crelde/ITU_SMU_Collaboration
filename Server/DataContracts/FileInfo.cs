@@ -1,12 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 namespace Server.DataContracts
 {
-    interface FileInfo
+    [DataContract]
+    public class FileInfo : Item
     {
+        public FileInfo()
+            : base()
+        {
+            // NOTE - Could be derived from attached File.
+            Name = "New File";            
+            // NOTE - Could be derived from attached File.
+            Type = FileType.other;
+            // NOTE - Could be derived from attached File.
+            Date = DateTime.Today;
+            Origin = "";
+        }
+
+        [DataMember]
+        public FileType Type { get; set; }
+
+        [DataMember]
+        public DateTime? Date { get; set; }
+
+        [DataMember]
+        public string Origin { get; set; }
     }
 }

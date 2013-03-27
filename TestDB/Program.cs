@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Server;
+using Server.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using Server;
-
 
 namespace Server
 {
@@ -162,19 +162,19 @@ namespace Server
             {
                 new Right {
                     Expires = DateTime.Now.AddDays(30),
-                    Type = RightsType.manage,
+                    Type = RightsType.edit,
                     User = u1,
                     Package = p1},
                 new Right {
-                    Type = RightsType.read,
+                    Type = RightsType.view,
                     User = u2,
                     Package = p1},
                 new Right {
-                    Type = RightsType.manage,
+                    Type = RightsType.edit,
                     User = u4,
                     Package = p3 },
                 new Right {
-                    Type = RightsType.manage,
+                    Type = RightsType.edit,
                     User = u3,
                     Package = p2}
             }.ForEach(r => context.Rights.Add(r));

@@ -1,0 +1,12 @@
+Some notes about this project in general:
+
+- How does the DB handle deletion of entities?
+  Does it cascade, so that packages and files made by a User are deleted with the User?
+  Does it not cascade, so that deleting a package does not delete the files contained within?
+
+- How do we ensure that at least one user manages a given package?
+  At the moment, only a file has an owner.
+  We don't ensure anywhere that anyone have any rights to a package.
+  Thus, we can have situations where users can create packages that can only
+  be accessed by admins. Or in general, a user can make a package that he cannot
+  access or manage himself.¨

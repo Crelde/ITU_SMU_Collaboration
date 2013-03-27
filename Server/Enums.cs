@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Server
+﻿namespace Server
 {
-    class Enums
+    public enum UserType
     {
-    }
+        admin,
+        standard        
+    };
+
+    public enum RightsType
+    {
+        view,
+        edit
+    };
+
+    public enum FileType
+    {
+        other,
+        text,
+        image,
+        audio,
+        video        
+    };
 }

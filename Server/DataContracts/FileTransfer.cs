@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
 namespace Server.DataContracts
 {
-    class FileTransfer
+    [DataContract]
+    public class FileTransfer
     {
+        public FileTransfer() {
+            Data = null;
+            Info = null;
+        }
+
+        [DataMember]
+        public byte[] Data { get; set; }
+        [DataMember]
+        public FileInfo Info { get; set; }
     }
 }
