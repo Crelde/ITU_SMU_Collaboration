@@ -10,7 +10,7 @@ namespace Server.DataContracts
         public string UserEmail { get; set; }
 
         [DataMember]
-        public RightsType Type { get; set; }
+        public RightType Type { get; set; }
 
         [DataMember]
         public int ItemId { get; set; }

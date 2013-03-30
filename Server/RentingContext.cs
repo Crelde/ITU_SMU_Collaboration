@@ -7,9 +7,9 @@ namespace Server
     {
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Right> Rights { get; set; }
+        //public DbSet<Right> Rights { get; set; }
 
-        public DbSet<Package> Packages { get; set; }
+        //public DbSet<Package> Packages { get; set; }
 
         public DbSet<File> Files { get; set; }
 

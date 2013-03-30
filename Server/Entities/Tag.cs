@@ -6,10 +6,13 @@ namespace Server.Entities
 {
     public class Tag
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Key, Column(Order = 0)]
         public string Text { get; set; }
 
+        [Key, Column(Order = 1)]
+        public int ItemId { get; set; }
+
         [Required]
-        public virtual List<File> Files { get; set; }
+        public virtual Item Item { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace Server.Entities
         public int PackageId { get; set; }
 
         [Required]
-        public RightsType Type { get; set; }
+        public RightType Type { get; set; }
 
         public DateTime? Expires { get; set; }
 

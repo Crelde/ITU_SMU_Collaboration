@@ -162,19 +162,19 @@ namespace Server
             {
                 new Right {
                     Expires = DateTime.Now.AddDays(30),
-                    Type = RightsType.edit,
+                    Type = RightType.edit,
                     User = u1,
                     Package = p1},
                 new Right {
-                    Type = RightsType.view,
+                    Type = RightType.view,
                     User = u2,
                     Package = p1},
                 new Right {
-                    Type = RightsType.edit,
+                    Type = RightType.edit,
                     User = u4,
                     Package = p3 },
                 new Right {
-                    Type = RightsType.edit,
+                    Type = RightType.edit,
                     User = u3,
                     Package = p2}
             }.ForEach(r => context.Rights.Add(r));

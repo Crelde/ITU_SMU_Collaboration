@@ -1,98 +1,167 @@
-﻿using Server.Entities;
-using System;
+﻿using Server.DataContracts;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
 using System.ServiceModel;
-using System.Text;
 
 namespace Server
 {
-    /*
-     * NOTE - Most of the booleans are to indicate the success or failure of executing the given method.
-     * TODO - Consider using a different format for reporting the success of an operation.
-     */
     [ServiceContract]
     public interface IService
     {
-        [OperationContract]
-        bool CreateUser(User user);
-
-        [OperationContract]
-        User ReadUser(string email);
-
-        [OperationContract]
-        bool UpdateUser(User user);
-
-        [OperationContract]
-        bool DeleteUser(string email);
-
-        [OperationContract]
-        bool UploadFile(File file);
-
-        [OperationContract]
-        File DownloadFile(int id);
-
         /*
-         * NOTE - Should this specify which file to replace the file with, or should that job also go the single argument?
-         * 
-         * NOTE - As I see it, we have two options:
-         *      1 Change it to ReplaceFile(int fileId, File file)
-         *        Which replaces the file with the given id with the new file.
-         *      2 Keep it as it is. Use the given files id to match an existing files id, and overwrite that file.
-         *      
-         *        In both cases, an exception should be thrown if no matching file was found, since it indicates and error
-         *        at either the client or server side. I'd suggest it does NOT just interpret it as a call to UploadFile!
-         * 
+         * Creates a new User, using the newUser object.
          */
         [OperationContract]
-        bool ReplaceFile(File file);
+        void CreateUser(User newUser);
 
+        /*
+         * Returns the User with the given email.
+         */
         [OperationContract]
-        bool RemoveFile(int id);
+        User GetUserByEmail(string email);
 
-        /* Uncomment when we know what the fuck we are doing...
+        /*
+         * Finds the User having the same Email as updatedUser and replaces the rest
+         * of its details with the ones in updatedUser.
+         */
         [OperationContract]
-        Session LogIn(string email, string password);
-        */
-        [OperationContract]
-        UserType GetAccountType(string email);
+        void UpdateUser(User updatedUser);
 
+        /*
+         * Deletes the User with the given email.
+         */
         [OperationContract]
-        RightsType GetRightsForFile(int fileId, string email);
+        void DeleteUserByEmail(string email);
 
+        /*
+         * Uploads the binary data and FileInfo contained in the transfer object.
+         * Returns the Id that the newly created File has been granted.
+         */
         [OperationContract]
-        bool LogOut();
+        int UploadFile(FileTransfer transfer);
 
-        // NOTE - Maybe we should make a Tag class instead?
-        // NOTE - That depends, do we need features that a string doesn't provide?
+        /*
+         * Downloads the binary data of the File with the given fId.
+         */
         [OperationContract]
-        bool AddTag(int fileId, string tag);
+        byte[] DownloadFileById(int fId);
 
+        /*
+         * Returns the FileInfo of the File with the given fId.
+         */
         [OperationContract]
-        bool RemoveTag(int fileId, string tag);
+        FileInfo GetFileInfoById(int fId);
 
+        /*
+         * Updates the File that matches updatedInfo's Id
+         * with the details contained within.
+         */
         [OperationContract]
-        List<Package> GetPackagesForUser(string email);
+        void UpdateFileInfo(FileInfo updatedInfo);
 
-        // NOTE - Depending on how we want to do this we can return packages or files here its package.
-        // NOTE - I think we agreed on putting files in packages also. I might be wrong... :-/
+        /*
+         * Updates the File with mathcing fId with the givne updatedData.
+         */
         [OperationContract]
-        List<Package> SearchMedia(string query);
+        void UpdateFileData(byte[] updatedData, int fId);
 
+        /*
+         * Deletes the File with the matching fId.
+         */
         [OperationContract]
-        bool CreatePackage(Package p);
+        void DeleteFileById(int fId);
 
+        /*
+         * Returns the FileInfos of the Files owned by the User with the given email.
+         */
         [OperationContract]
-        bool DeletePackage(int pId);
+        HashSet<FileInfo> GetOwnedFileInfosByEmail(string email);
 
+        /*
+         * Returns the FileInfos that contain the given tag.
+         */
         [OperationContract]
-        bool SharePackage(int pId, List<string> emails);
+        List<FileInfo> GetFileInfosByTag(string tag);
 
+
+
+
+
+
+        /*
+         * Returns the Packages owned by the User with the given email.
+         * NOTE - Should it just be Owned, or also Packages with View/Edit rights?
+         */
+        [OperationContract]
+        HashSet<Package> GetPackagesByEmail(string email);
+
+        /*
+         * Returns the Packages that contain the given tag.
+         */
+        [OperationContract]
+        List<Package> GetPackagesByTag(string tag);
+
+        /*
+         * Creates the given Package on the service.
+         */
+        [OperationContract]
+        void CreatePackage(Package p);
+
+        /*
+         * Deletes the Package with the matching pId.
+         */
+        [OperationContract]
+        void DeletePackageById(int pId);
+
+        /*
+         * Grants the Users with matching emails the Rights specified by the Type enum to the 
+         * Item with the given iId.
+         */
+        [OperationContract]
+        void GrantRights(int iId, List<string> emails, RightType Type);
+
+        /*
+         * Returns the Rights matching the given details.
+         * NOTE - Discuss how it should handle different inputs.
+         */
+        [OperationContract]
+        HashSet<Right> GetRights(int? itemId = null, string email = null);
+
+        /*
+         * Updates Rights that the Users with matching emails have to the
+         * Item with the given iId.
+         */
+        [OperationContract]
+        void UpdateRights(int iId, List<string> emails, RightType Type);
+
+        /*
+         * Removes the Rights that the Users with matching emails have to the
+         * Item with the given iId.
+         */
+        [OperationContract]
+        void DropRights(int iId, List<string> emails);
+
+        /*
+         * Adds the Files with matching pIds to the Package with the macthing pId.
+         */
         [OperationContract]
         bool AddToPackage(List<int> fIds, int pId);
 
+        /*
+         * Removes the Files with matching pIds from the Package with the macthing pId.
+         */
         [OperationContract]
         bool RemoveFromPackage(List<int> fIds, int pId);
+
+        /*
+         * Returns a List of FileInfos that match the given search query in some fashion.
+         */
+        [OperationContract]
+        List<FileInfo> SearchFileInfos(string query);
+
+        /*
+         * Returns a List of Packages that match the given search query in some fashion.
+         */
+        [OperationContract]
+        List<Package> SearchPackages(string query);
     }
 }

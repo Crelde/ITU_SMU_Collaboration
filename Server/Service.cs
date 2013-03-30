@@ -1,142 +1,134 @@
-﻿using Server.Entities;
-using System;
+﻿using Server.DataContracts;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.ServiceModel;
-using System.Text;
 using DB = Server.DatabaseController;
 
 namespace Server
 {
     public class Service : IService
     {
-        // TODO - Test on Server
-        public bool CreateUser(User user)
+
+        public void CreateUser(User newUser)
         {
-            return DB.CreateUser(user);
+            DB.CreateUser(newUser);
         }
 
-        // TODO - Test on Server
-        public User ReadUser(string email)
+        public User GetUserByEmail(string email)
         {
             return DB.GetUserByEmail(email);
         }
 
-        // TODO - Test on Server
-        public bool UpdateUser(User user)
+        public void UpdateUser(User updatedUser)
         {
-            return DB.UpdateUser(user);
+            DB.UpdateUser(updatedUser);
         }
 
-        // TODO - Test on Server
-        public bool DeleteUser(string email)
+        public void DeleteUserByEmail(string email)
         {
-            return DB.DeleteUserByEmail(email);
+            DB.DeleteUserByEmail(email);
         }
 
-        // TODO - Test
-        public bool UploadFile(File file)
+        public int UploadFile(FileTransfer transfer)
         {
-            return DB.CreateFile(file);
+            return DB.UploadFile(transfer);
         }
 
-        // TODO - Test
-        public File DownloadFile(int id)
+        public byte[] DownloadFileById(int fId)
         {
-            return DB.GetFileById(id);
+            return DB.DownloadFileById(fId);
         }
 
-        // TODO - Test
-        public bool ReplaceFile(File file)
+        public FileInfo GetFileInfoById(int fId)
         {
-            return DB.ReplaceFile(file);
+            return DB.GetFileInfoById(fId);
         }
 
-        // TODO - Test
-        public bool RemoveFile(int id)
+        public void UpdateFileInfo(FileInfo updatedInfo)
         {
-            return DB.RemoveFileById(id);
+            DB.UpdateFileInfo(updatedInfo);
         }
 
-        /* TODO - Implement
-        public Session LogIn(string email, string password)
+        public void UpdateFileData(byte[] updatedData, int fId)
         {
-            throw new NotImplementedException();
-        }
-        */
-
-        // TODO - Implement
-        public bool LogOut()
-        {
-            throw new NotImplementedException();
+            DB.UpdateFileData(updatedData, fId);
         }
 
-        // TODO - Test
-        public bool AddTag(int fileId, string tag)
+        public void DeleteFileById(int fId)
         {
-            return DB.AddTag(fileId, tag);
+            DB.DeleteFileById(fId);
         }
 
-        // TODO - Test
-        public bool RemoveTag(int fileId, string tag)
+        public HashSet<FileInfo> GetOwnedFileInfosByEmail(string email)
         {
-            return DB.RemoveTag(fileId, tag);
+            return DB.GetOwnedFileInfosByEmail(email);
         }
 
-        // TODO - Test
-        public List<Package> GetPackagesForUser(string email)
+        public List<FileInfo> GetFileInfosByTag(string tag)
         {
-            return DB.GetPackagesByEmail(email);
+            return DB.GetFileInfosByTag(tag);
         }
 
-        // TODO - Implement
-        public List<Package> SearchMedia(string query)
+
+
+
+
+        public HashSet<Package> GetPackagesByEmail(string email)
         {
-            throw new NotImplementedException();
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
-        public bool CreatePackage(Package newPackage)
+        public List<Package> GetPackagesByTag(string tag)
         {
-            return DB.CreatePackage(newPackage);
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
-        public bool DeletePackage(int id)
+        public void CreatePackage(Package p)
         {
-            return DB.DeletePackageById(id);
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
-        public bool SharePackage(int pId, List<string> emails)
+        public void DeletePackageById(int pId)
         {
-            return DB.SharePackage(pId, emails);            
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
+        public void GrantRights(int iId, List<string> emails, RightType Type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public HashSet<Right> GetRights(int? itemId = null, string email = null)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void UpdateRights(int iId, List<string> emails, RightType Type)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void DropRights(int iId, List<string> emails)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public bool AddToPackage(List<int> fIds, int pId)
         {
-            return DB.AddToPackage(fIds, pId);
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
         public bool RemoveFromPackage(List<int> fIds, int pId)
         {
-            return DB.RemoveFromPackage(fIds, pId);
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
-        public UserType GetAccountType(string email)
+        public List<FileInfo> SearchFileInfos(string query)
         {
-            return DB.getAccountType(email);
+            throw new System.NotImplementedException();
         }
 
-        // TODO - Test
-        public RightsType GetRightsForFile(int fileId, string email)
+        public List<Package> SearchPackages(string query)
         {
-            return DB.GetRightsForFile(fileId, email);
+            throw new System.NotImplementedException();
         }
     }
 }

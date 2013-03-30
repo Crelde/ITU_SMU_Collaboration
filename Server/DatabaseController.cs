@@ -8,289 +8,201 @@ namespace Server
 {
     public class DatabaseController
     {
-        public static bool CreateUser(User newUser)
+
+        public static void CreateUser(DataContracts.User newUser)
         {
+            Contract.Requires(newUser.Email != null);
             Contract.Requires(GetUserByEmail(newUser.Email) == null);
             Contract.Ensures(GetUserByEmail(newUser.Email).Equals(newUser));
 
             using (var db = new RentingContext())
             {
-                if (db.Users.Find(newUser.Email) != null)
-                    return false;
-
-                db.Users.Add(newUser);
+                db.Users.Add((User)newUser);
                 db.SaveChanges();
-                return true;
             }
         }
 
         [Pure]
-        public static User GetUserByEmail(string email)
+        public static DataContracts.User GetUserByEmail(string email)
         {
             Contract.Requires(email != null);
             Contract.Ensures(Contract.Result<User>().Email.Equals(email));
 
             using (var db = new RentingContext())
             {
-                return db.Users.Find(email);
+                return (DataContracts.User)db.Users.Find(email);
             }
         }
 
-        public static bool UpdateUser(User newUser)
+        public static void UpdateUser(DataContracts.User updatedUser)
         {
-            Contract.Requires(GetUserByEmail(newUser.Email) != null);
-            Contract.Ensures(GetUserByEmail(newUser.Email).Equals(newUser));
+            Contract.Requires(updatedUser.Email != null);
+            Contract.Requires(GetUserByEmail(updatedUser.Email) != null);
+            Contract.Ensures(GetUserByEmail(updatedUser.Email).Equals(updatedUser));
 
             using (var db = new RentingContext())
             {
-                if (db.Users.Find(newUser.Email) == null)
-                    return false;
-
-                var oldUser = db.Users.Find(newUser.Email);
-                db.Entry(oldUser).CurrentValues.SetValues(newUser);
+                var outdatedUser = db.Users.Find(updatedUser.Email);
+                db.Entry(outdatedUser).CurrentValues.SetValues(updatedUser);
                 db.SaveChanges();
-                return true;
             }
         }
 
-        public static bool DeleteUserByEmail(string email)
+        public static void DeleteUserByEmail(string email)
         {
             Contract.Requires(email != null);
+            Contract.Requires(GetUserByEmail(email) != null);
             Contract.Ensures(GetUserByEmail(email) == null);
 
             using (var db = new RentingContext())
+            {                
+                db.Entry(db.Users.Find(email)).State = EntityState.Deleted;
+                db.SaveChanges();                
+            }
+        }
+
+        public static int UploadFile(DataContracts.FileTransfer transfer)
+        {
+            Contract.Requires(GetFileInfoById(transfer.Info.Id) == null);
+            Contract.Ensures(GetFileInfoById(transfer.Info.Id).Equals(transfer.Info));
+            Contract.Ensures(DownloadFileById(transfer.Info.Id).Equals(transfer.Data));
+
+            using (var db = new RentingContext())
             {
-                try
+                var t = transfer;
+                var i = t.Info;                
+                var tags = i.Tags;
+
+                var newFile = new File
                 {
-                    db.Entry(db.Users.Find(email)).State = EntityState.Deleted;
-                    db.SaveChanges();
-                    return true;
-                }
-                catch
+                    Name = i.Name,
+                    Data = t.Data,
+                    Date = i.Date,
+                    Description = i.Description,
+                    Origin = i.Origin,
+                    Owner = db.Users.Find(i.OwnerEmail),
+                    OwnerEmail = i.OwnerEmail,
+                    Type = i.Type
+                };
+                
+                db.Files.Add(newFile);
+                db.SaveChanges();
+                newFile.Tags = new List<Tag>();
+                foreach (string s in tags)
                 {
-                    return false;
+                    newFile.Tags.Add(new Tag { Text = s, ItemId = newFile.Id, Item = newFile });
                 }
+                db.SaveChanges();
+
+                return newFile.Id;
             }
         }
 
         [Pure]
-        public static UserType getAccountType(string email)
+        public static byte[] DownloadFileById(int fId)
+        {
+            Contract.Requires(GetFileInfoById(fId) != null);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
+
+            using (var db = new RentingContext())
+            {
+                return db.Files.Find(fId).Data;
+            }
+        }
+
+        [Pure]
+        public static DataContracts.FileInfo GetFileInfoById(int fId)
+        {
+            Contract.Ensures(Contract.Result<DataContracts.FileInfo>() == null
+                || Contract.Result<DataContracts.FileInfo>().Id == fId);
+
+            using (var db = new RentingContext())
+            {
+                return (DataContracts.FileInfo)db.Files.Find(fId);
+            }
+        }
+
+        public static void UpdateFileInfo(DataContracts.FileInfo updatedInfo)
+        {
+            Contract.Requires(GetFileInfoById(updatedInfo.Id) != null);
+            Contract.Ensures(GetFileInfoById(updatedInfo.Id).Equals(updatedInfo));
+
+            using (var db = new RentingContext())
+            {
+                var outdatedFile = db.Files.Find(updatedInfo.Id);
+                var updatedFile = (File)updatedInfo;
+                updatedFile.Data = outdatedFile.Data;;
+
+                db.Entry(outdatedFile).CurrentValues.SetValues(updatedFile);                
+                db.SaveChanges();
+            }
+        }
+
+        public static void UpdateFileData(byte[] updatedData, int fId)
+        {
+            Contract.Requires(GetFileInfoById(fId) != null);
+            Contract.Ensures(DownloadFileById(fId).Equals(updatedData));
+
+            using (var db = new RentingContext())
+            {
+                var outdatedFile = db.Files.Find(fId);
+                var updatedFile = (File)((DataContracts.FileInfo)outdatedFile);
+                updatedFile.Data = updatedData;
+
+                db.Entry(outdatedFile).CurrentValues.SetValues(updatedFile);
+                db.SaveChanges();
+            }
+        }
+
+        public static void DeleteFileById(int fId)
+        {
+            Contract.Requires(GetFileInfoById(fId) != null);
+            Contract.Ensures(GetFileInfoById(fId) == null);
+
+            using (var db = new RentingContext())
+            {
+                db.Entry(db.Files.Find(fId)).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
+
+        public static HashSet<DataContracts.FileInfo> GetOwnedFileInfosByEmail(string email)
         {
             Contract.Requires(email != null);
-            return GetUserByEmail(email).Type;
-        }
-
-
-
-        public static bool CreatePackage(Package newPackage)
-        {
+            Contract.Requires(GetUserByEmail(email) != null);
+            Contract.Ensures(Contract.Result<HashSet<DataContracts.FileInfo>>() != null);
             using (var db = new RentingContext())
             {
-                try
+                var user = db.Users.Find(email);
+                var infos = new HashSet<DataContracts.FileInfo>();
+                foreach (Item i in user.OwnedItems)
                 {
-                    db.Packages.Add(newPackage);
-                    db.SaveChanges();
-                    return true;
+                    var f = i as File;
+                    if(f != null)
+                        infos.Add((DataContracts.FileInfo)f);
                 }
-                catch
+                return infos;
+            }
+        }
+
+        public static List<DataContracts.FileInfo> GetFileInfosByTag(string tag)
+        {
+            // TODO - Add Contracts maybe..? :-S
+
+            using (var db = new RentingContext())
+            {
+                var infos = new List<DataContracts.FileInfo>();
+
+                var query = from t in db.Tags where t.Text.Equals(tag) select t.Item;
+
+                foreach (Item i in query)
                 {
-                    return false;
+                    var f = i as File;
+                    if (f != null)
+                        infos.Add((DataContracts.FileInfo)f);
                 }
+                return infos;
             }
-        }
-
-        [Pure]
-        public static Package GetPackageById(int id)
-        {            
-            using (var db = new RentingContext())
-            {
-                return db.Packages.Find(id);
-            }
-        }
-
-        public static bool DeletePackageById(int id)
-        {
-            using (var db = new RentingContext())
-            {
-                try
-                {
-                    db.Entry(db.Packages.Find(id)).State = EntityState.Deleted;
-                    db.SaveChanges();
-                    return true;
-                }
-                catch
-                {
-                    return false;
-                }
-            }
-        }
-
-        private static bool AlterPackageFiles(List<int> fIds, int pId, bool remove)
-        {
-            using (var db = new RentingContext())
-            {
-                var package = db.Packages.Find(pId);
-                if (package == null)
-                    return false;
-                foreach (var fId in fIds)
-                {
-                    var file = db.Files.Find(fId);
-                    if (file == null)
-                        return false;
-                    if (remove)
-                    {
-                        package.Files.Remove(file);
-                    }
-                    else
-                    {
-                        package.Files.Add(file);
-                    }
-                }
-                db.SaveChanges();
-                return true;
-            }
-        }
-
-        public static bool AddToPackage(List<int> fIds, int pId)
-        {
-            return AlterPackageFiles(fIds, pId, false);   
-        }
-
-        public static bool RemoveFromPackage(List<int> fIds, int pId)
-        {
-            return AlterPackageFiles(fIds, pId, true);
-        }
-
-        [Pure]
-        public static RightsType GetRightsForFile(int fileId, string email)
-        {
-            using (var db = new RentingContext())
-            {
-                return db.Rights.Find(email, fileId).Type;
-            }
-        }
-
-
-        public static bool SharePackage(int pId, List<string> emails)
-        {
-            using (var db = new RentingContext())
-            {
-                var package = db.Packages.Find(pId);
-                if (package == null)
-                    return false;
-                foreach (var email in emails)
-                {
-                    var user = db.Users.Find(email);
-                    if (user == null)
-                        return false;
-                    var right = db.Rights.Find(email, pId);
-                    if (right != null)
-                        return false;
-                    right = new Right { Package = package, User = user };
-                    db.Rights.Add(right);
-                }
-                db.SaveChanges();
-                return true;
-            }            
-        }
-
-        public static List<Package> GetPackagesByEmail(string email)
-        {
-            using (var db = new RentingContext())
-            {
-                var list = new List<Package>();
-                list.AddRange(from right in db.Rights where right.User.Email.Equals(email) select right.Package);
-                return list;
-            }
-        }
-        public static bool RemoveTag(int fileId, string tag)
-        {
-            using (var db = new RentingContext())
-            {
-                var file = db.Files.Find(fileId);
-                if (file == null)
-                    return false;
-                var tags = file.Tags;
-                if (!tags.Any(t => t.Text.Equals(tag)))
-                    return false;
-                tags.Remove(tags.Single(t => t.Text.Equals(tag)));
-                db.SaveChanges();
-            }
-            return true;
-        }
-        public static bool AddTag(int fileId,string tag)
-        {
-            using (var db = new RentingContext())
-            {
-                var file = db.Files.Find(fileId);
-                if (file == null)
-                    return false;
-                var tags = file.Tags;
-                if (tags.Any(t => t.Text.Equals(tag)))
-                    return false;
-                tags.Add(new Tag { Text = tag });
-                db.SaveChanges();
-            }
-            return true;
-        }
-
-
-        public static bool CreateFile(File newFile)
-        {
-            try
-            {
-                using (var db = new RentingContext())
-                {
-                    db.Files.Add(newFile);
-                    db.SaveChanges();
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public static File GetFileById(int id)
-        {
-            using (var db = new RentingContext())
-            {
-                return db.Files.Find(id);
-            }
-        }
-
-        public static bool ReplaceFile(File newFile)
-        {
-            try
-            {
-                using (var db = new RentingContext())
-                {
-                    db.Entry(db.Files.Find(newFile.Id)).CurrentValues.SetValues(newFile);
-                    db.SaveChanges();
-                }
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
-        public static bool RemoveFileById(int id)
-        {
-            try
-            {
-                using (var db = new RentingContext())
-                {
-                    db.Entry(db.Files.Find(id)).State = EntityState.Deleted;
-                    db.SaveChanges();                   
-                }
-            }
-            catch {
-                return false;
-            }
-            return true;
         }
     }
 }

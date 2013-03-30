@@ -6,7 +6,7 @@
         standard        
     };
 
-    public enum RightsType
+    public enum RightType
     {
         view,
         edit
