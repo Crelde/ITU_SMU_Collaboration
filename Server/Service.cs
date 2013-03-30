@@ -6,7 +6,6 @@ namespace Server
 {
     public class Service : IService
     {
-
         public void CreateUser(User newUser)
         {
             DB.CreateUser(newUser);
@@ -139,12 +138,12 @@ namespace Server
 
         public List<FileInfo> SearchFileInfos(string query)
         {
-            throw new System.NotImplementedException();
+            return DB.SearchFileInfos(query);
         }
 
         public List<Package> SearchPackages(string query)
         {
-            throw new System.NotImplementedException();
+            return DB.SearchPackages(query);
         }
     }
 }

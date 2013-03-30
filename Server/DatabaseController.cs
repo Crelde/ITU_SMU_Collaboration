@@ -8,7 +8,6 @@ namespace Server
 {
     public class DatabaseController
     {
-
         public static void CreateUser(DataContracts.User newUser)
         {
             Contract.Requires(newUser.Email != null);
@@ -406,11 +405,60 @@ namespace Server
             }
         }
 
+        [Pure]
+        public static List<DataContracts.FileInfo> SearchFileInfos(string query)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                var linqquery = 
+                    from f
+                    in db.Files
+                    where f.Description.Contains(query)
+                    || f.Name.Contains(query)
+                    || f.Origin.Contains(query)
+                    || f.OwnerEmail.Contains(query)
+                    select f;
 
 
+                var results = new List<DataContracts.FileInfo>();
 
+                foreach (var result in linqquery)
+                {
+                    results.Add((DataContracts.FileInfo)result);
+                }
 
+                return results;
+            }
+        }
 
+        [Pure]
+        public static List<DataContracts.Package> SearchPackages(string query)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                var linqquery = 
+                    from p
+                    in db.Packages
+                    where p.Description.Contains(query)
+                    || p.Name.Contains(query)
+                    || p.OwnerEmail.Contains(query)
+                    select p;
+
+                var results = new List<DataContracts.Package>();
+
+                foreach (var result in linqquery)
+                {
+                    results.Add((DataContracts.Package)result);
+                }
+
+                return results;
+
+            }
+        }
 
         [Pure]
         public static File GetFileById(int fId)
@@ -430,6 +478,6 @@ namespace Server
             {
                 return db.Items.Find(itemId);
             }
-        }
+        }       
     }
 }
