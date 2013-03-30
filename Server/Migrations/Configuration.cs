@@ -5,14 +5,14 @@ namespace Server.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Server.RentingContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Server.DatabaseContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(Server.RentingContext context)
+        protected override void Seed(Server.DatabaseContext context)
         {
             //  This method will be called after migrating to the latest version.
 

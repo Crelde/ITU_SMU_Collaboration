@@ -9,10 +9,10 @@ namespace Server.DataContracts
         public Package()
             : base()
         {
-            FileInfos = new List<FileInfo>();
+            FileIds = new List<int>();
         }
 
         [DataMember]
-        public List<FileInfo> FileInfos { get; set; }
+        public List<int> FileIds { get; set; }
     }
 }

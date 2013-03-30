@@ -19,7 +19,5 @@ namespace Server.Entities
 
         //[Required]
         public virtual User Owner { get; set; }
-
-        public virtual List<Tag> Tags { get; set; }
     }
 }

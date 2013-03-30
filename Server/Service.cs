@@ -62,31 +62,63 @@ namespace Server
             return DB.GetOwnedFileInfosByEmail(email);
         }
 
+        public void AddTag(string text, int iId)
+        {
+            DB.AddTag(text, iId);
+        }
+
+        public void DropTag(string text, int iId)
+        {
+            DB.DropTag(text, iId);
+        }
+
+        public List<string> GetTagsByItemId(int iId)
+        {
+            return DB.GetTagsByItemId(iId);
+        }
+
         public List<FileInfo> GetFileInfosByTag(string tag)
         {
             return DB.GetFileInfosByTag(tag);
         }
 
+        public int CreatePackage(Package newPackage)
+        {
+            return DB.CreatePackage(newPackage);
+        }
+
+        public Package GetPackageById(int pId)
+        {
+            return DB.GetPackageById(pId);
+        }
+
+        public void AddToPackage(List<int> fIds, int pId)
+        {
+            DB.AddToPackage(fIds, pId);
+        }
+
+        public void RemoveFromPackage(List<int> fIds, int pId)
+        {
+            DB.RemoveFromPackage(fIds, pId);
+        }
+
+        public void DeletePackageById(int pId)
+        {
+            DB.DeletePackageById(pId);
+        }
 
 
 
 
-        public HashSet<Package> GetPackagesByEmail(string email)
+
+
+
+        public HashSet<Package> GetOwnedPackagesByEmail(string email)
         {
             throw new System.NotImplementedException();
         }
 
         public List<Package> GetPackagesByTag(string tag)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void CreatePackage(Package p)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void DeletePackageById(int pId)
         {
             throw new System.NotImplementedException();
         }
@@ -107,16 +139,6 @@ namespace Server
         }
 
         public void DropRights(int iId, List<string> emails)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool AddToPackage(List<int> fIds, int pId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public bool RemoveFromPackage(List<int> fIds, int pId)
         {
             throw new System.NotImplementedException();
         }

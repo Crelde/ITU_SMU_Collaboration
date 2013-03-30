@@ -77,11 +77,58 @@ namespace Server
         HashSet<FileInfo> GetOwnedFileInfosByEmail(string email);
 
         /*
+         * Adds the given tag text to the item with the given Id.
+         */
+        [OperationContract]
+        void AddTag(string text, int iId);
+
+        /*
+         * Removes the given tag text from the item with the given Id.
+         */
+        [OperationContract]
+        void DropTag(string text, int iId);
+
+        /*
+         * Returns the tags that the Item with the given Id has.
+         */
+        [OperationContract]
+        List<string> GetTagsByItemId(int iId);
+
+        /*
          * Returns the FileInfos that contain the given tag.
          */
         [OperationContract]
         List<FileInfo> GetFileInfosByTag(string tag);
 
+        /*
+         * Creates the given Package on the service.
+         */
+        [OperationContract]
+        int CreatePackage(Package newPackage);
+
+        /*
+         * Returns the Package with the matching pId.
+         */
+        [OperationContract]
+        Package GetPackageById(int pId);
+
+        /*
+         * Adds the Files with matching pIds to the Package with the macthing pId.
+         */
+        [OperationContract]
+        void AddToPackage(List<int> fIds, int pId);
+
+        /*
+         * Removes the Files with matching pIds from the Package with the macthing pId.
+         */
+        [OperationContract]
+        void RemoveFromPackage(List<int> fIds, int pId);
+
+        /*
+         * Deletes the Package with the matching pId.
+         */
+        [OperationContract]
+        void DeletePackageById(int pId);
 
 
 
@@ -92,25 +139,13 @@ namespace Server
          * NOTE - Should it just be Owned, or also Packages with View/Edit rights?
          */
         [OperationContract]
-        HashSet<Package> GetPackagesByEmail(string email);
+        HashSet<Package> GetOwnedPackagesByEmail(string email);
 
         /*
          * Returns the Packages that contain the given tag.
          */
         [OperationContract]
         List<Package> GetPackagesByTag(string tag);
-
-        /*
-         * Creates the given Package on the service.
-         */
-        [OperationContract]
-        void CreatePackage(Package p);
-
-        /*
-         * Deletes the Package with the matching pId.
-         */
-        [OperationContract]
-        void DeletePackageById(int pId);
 
         /*
          * Grants the Users with matching emails the Rights specified by the Type enum to the 
@@ -139,18 +174,6 @@ namespace Server
          */
         [OperationContract]
         void DropRights(int iId, List<string> emails);
-
-        /*
-         * Adds the Files with matching pIds to the Package with the macthing pId.
-         */
-        [OperationContract]
-        bool AddToPackage(List<int> fIds, int pId);
-
-        /*
-         * Removes the Files with matching pIds from the Package with the macthing pId.
-         */
-        [OperationContract]
-        bool RemoveFromPackage(List<int> fIds, int pId);
 
         /*
          * Returns a List of FileInfos that match the given search query in some fashion.

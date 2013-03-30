@@ -19,9 +19,9 @@ namespace Server.Entities
         [Required]
         public virtual byte[] Data { get; set; }
 
-        //public virtual ICollection<Package> Packages { get; set; }
+        public List<int> PackageIds { get; set; }
 
-        
+        public virtual List<Package> Packages { get; set; }        
 
         public static explicit operator File(DataContracts.FileInfo info)
         {
@@ -38,14 +38,8 @@ namespace Server.Entities
                 Type = info.Type,
                 Origin = info.Origin,
                 Date = info.Date,
-                Data = null,
-                Tags = new List<Tag>()
-            };
-
-            foreach (string text in info.Tags)
-            {
-                file.Tags.Add(new Tag { Text = text, Item = null });
-            }
+                Data = null
+            };            
 
             return file;
         }
@@ -63,14 +57,8 @@ namespace Server.Entities
                 OwnerEmail = file.OwnerEmail,
                 Type = file.Type,
                 Origin = file.Origin,
-                Date = file.Date,
-                Tags = new List<string>()
-            };
-
-            foreach (var tag in file.Tags)
-            {
-                info.Tags.Add(tag.Text);
-            }
+                Date = file.Date
+            };            
 
             return info;
         }
