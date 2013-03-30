@@ -156,6 +156,7 @@ namespace Server
             }
         }
 
+        [Pure]
         public static HashSet<DataContracts.FileInfo> GetOwnedFileInfosByEmail(string email)
         {
             Contract.Requires(email != null);
@@ -203,6 +204,7 @@ namespace Server
             }
         }
 
+        [Pure]
         public static List<string> GetTagsByItemId(int iId)
         {
             // TODO - Add contracts.
@@ -214,6 +216,7 @@ namespace Server
             }
         }
 
+        [Pure]
         public static List<DataContracts.FileInfo> GetFileInfosByTag(string tag)
         {
             // TODO - Add Contracts maybe..? :-S
@@ -261,6 +264,7 @@ namespace Server
             }
         }
 
+        [Pure]
         public static DataContracts.Package GetPackageById(int pId)
         {
             // TODO - Add contracts.
@@ -314,6 +318,96 @@ namespace Server
             }
         }
 
+        [Pure]
+        public static HashSet<DataContracts.Package> GetOwnedPackagesByEmail(string email)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                var user = db.Users.Find(email);
+                var packages = new HashSet<DataContracts.Package>();                
+
+                foreach (Item i in user.OwnedItems)
+                {
+                    var p = i as Package;
+                    if (p != null)
+                        packages.Add((DataContracts.Package)p);
+                }
+                return packages;
+            }
+        }
+
+        [Pure]
+        public static List<DataContracts.Package> GetPackagesByTag(string tag)
+        {
+            // TODO - Add Contracts maybe..? :-S
+
+            using (var db = new DatabaseContext())
+            {
+                var packages = new List<DataContracts.Package>();
+
+                var query = from t in db.Tags where t.Text.Equals(tag) select t.Item;
+
+                foreach (Item i in query)
+                {
+                    var p = i as Package;
+                    if (p != null)
+                        packages.Add((DataContracts.Package)p);
+                }
+                return packages;
+            }
+        }
+
+        public static void GrantRight(DataContracts.Right newRight)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                var right = (Right) newRight;
+                right.Item = db.Items.Find(right.ItemId);
+                db.Rights.Add(right);
+                db.SaveChanges();
+            }
+        }
+
+        [Pure]
+        public static DataContracts.Right GetRight(int itemId, string email)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                return (DataContracts.Right)db.Rights.Find(email, itemId);
+            }
+        }
+
+        public static void UpdateRight(DataContracts.Right updatedRight)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                var outdatedRight = db.Rights.Find(updatedRight.UserEmail, updatedRight.ItemId);                
+                db.Entry(outdatedRight).CurrentValues.SetValues(updatedRight);
+                db.SaveChanges();
+            }
+        }
+
+        public static void DropRight(string email, int itemId)
+        {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                db.Entry(db.Rights.Find(email, itemId)).State = EntityState.Deleted;
+                db.SaveChanges();
+            }
+        }
+
+
+
 
 
 
@@ -321,11 +415,20 @@ namespace Server
         [Pure]
         public static File GetFileById(int fId)
         {
-            // TODO - Write Contract.
+            // TODO - Add Contracts.
 
             using (var db = new DatabaseContext())
             {
                 return db.Files.Find(fId);
+            }
+        }
+
+        public static Item GetItemById(int itemId) {
+            // TODO - Add Contracts.
+
+            using (var db = new DatabaseContext())
+            {
+                return db.Items.Find(itemId);
             }
         }
     }

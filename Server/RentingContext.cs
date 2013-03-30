@@ -7,7 +7,7 @@ namespace Server
     {
         public DbSet<User> Users { get; set; }
 
-        //public DbSet<Right> Rights { get; set; }
+        public DbSet<Right> Rights { get; set; }
 
         public DbSet<Membership> Memberships { get; set; }
 
@@ -22,6 +22,8 @@ namespace Server
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<Right>().HasRequired<User>(r => r.User).WithRequiredDependent().WillCascadeOnDelete(false);
         }
     }
 }

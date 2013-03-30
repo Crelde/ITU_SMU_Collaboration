@@ -130,10 +130,6 @@ namespace Server
         [OperationContract]
         void DeletePackageById(int pId);
 
-
-
-
-
         /*
          * Returns the Packages owned by the User with the given email.
          * NOTE - Should it just be Owned, or also Packages with View/Edit rights?
@@ -148,32 +144,31 @@ namespace Server
         List<Package> GetPackagesByTag(string tag);
 
         /*
-         * Grants the Users with matching emails the Rights specified by the Type enum to the 
-         * Item with the given iId.
+         * Adds the given right to the service.
          */
         [OperationContract]
-        void GrantRights(int iId, List<string> emails, RightType Type);
+        void GrantRight(Right newRight);
 
         /*
-         * Returns the Rights matching the given details.
-         * NOTE - Discuss how it should handle different inputs.
+         * Returns the right associated with the User with the given email,
+         * and the Item with the given itemId.
          */
         [OperationContract]
-        HashSet<Right> GetRights(int? itemId = null, string email = null);
+        Right GetRight(string email, int itemId);
 
         /*
-         * Updates Rights that the Users with matching emails have to the
-         * Item with the given iId.
+         * Updates the exising right that has matching UserEmail and ItemId fields,
+         * with the rest of the fields from the given updatedRight.
          */
         [OperationContract]
-        void UpdateRights(int iId, List<string> emails, RightType Type);
+        void UpdateRight(Right updatedRight);
 
         /*
-         * Removes the Rights that the Users with matching emails have to the
-         * Item with the given iId.
+         * Removes the right associated with the User with the given email address,
+         * and the Item with the given Id.
          */
         [OperationContract]
-        void DropRights(int iId, List<string> emails);
+        void DropRight(string email, int itemId);
 
         /*
          * Returns a List of FileInfos that match the given search query in some fashion.

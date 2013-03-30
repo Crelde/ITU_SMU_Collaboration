@@ -32,14 +32,14 @@ namespace Server
             return DB.UploadFile(transfer);
         }
 
-        public byte[] DownloadFileById(int fId)
+        public byte[] DownloadFileById(int fileId)
         {
-            return DB.DownloadFileById(fId);
+            return DB.DownloadFileById(fileId);
         }
 
-        public FileInfo GetFileInfoById(int fId)
+        public FileInfo GetFileInfoById(int fileId)
         {
-            return DB.GetFileInfoById(fId);
+            return DB.GetFileInfoById(fileId);
         }
 
         public void UpdateFileInfo(FileInfo updatedInfo)
@@ -47,14 +47,14 @@ namespace Server
             DB.UpdateFileInfo(updatedInfo);
         }
 
-        public void UpdateFileData(byte[] updatedData, int fId)
+        public void UpdateFileData(byte[] updatedData, int fileId)
         {
-            DB.UpdateFileData(updatedData, fId);
+            DB.UpdateFileData(updatedData, fileId);
         }
 
-        public void DeleteFileById(int fId)
+        public void DeleteFileById(int fileId)
         {
-            DB.DeleteFileById(fId);
+            DB.DeleteFileById(fileId);
         }
 
         public HashSet<FileInfo> GetOwnedFileInfosByEmail(string email)
@@ -62,19 +62,19 @@ namespace Server
             return DB.GetOwnedFileInfosByEmail(email);
         }
 
-        public void AddTag(string text, int iId)
+        public void AddTag(string tag, int itemId)
         {
-            DB.AddTag(text, iId);
+            DB.AddTag(tag, itemId);
         }
 
-        public void DropTag(string text, int iId)
+        public void DropTag(string tag, int itemId)
         {
-            DB.DropTag(text, iId);
+            DB.DropTag(tag, itemId);
         }
 
-        public List<string> GetTagsByItemId(int iId)
+        public List<string> GetTagsByItemId(int itemId)
         {
-            return DB.GetTagsByItemId(iId);
+            return DB.GetTagsByItemId(itemId);
         }
 
         public List<FileInfo> GetFileInfosByTag(string tag)
@@ -87,60 +87,54 @@ namespace Server
             return DB.CreatePackage(newPackage);
         }
 
-        public Package GetPackageById(int pId)
+        public Package GetPackageById(int packageId)
         {
-            return DB.GetPackageById(pId);
+            return DB.GetPackageById(packageId);
         }
 
-        public void AddToPackage(List<int> fIds, int pId)
+        public void AddToPackage(List<int> fileIds, int packageId)
         {
-            DB.AddToPackage(fIds, pId);
+            DB.AddToPackage(fileIds, packageId);
         }
 
-        public void RemoveFromPackage(List<int> fIds, int pId)
+        public void RemoveFromPackage(List<int> fileIds, int packageId)
         {
-            DB.RemoveFromPackage(fIds, pId);
+            DB.RemoveFromPackage(fileIds, packageId);
         }
 
-        public void DeletePackageById(int pId)
+        public void DeletePackageById(int packageId)
         {
-            DB.DeletePackageById(pId);
+            DB.DeletePackageById(packageId);
         }
-
-
-
-
-
-
 
         public HashSet<Package> GetOwnedPackagesByEmail(string email)
         {
-            throw new System.NotImplementedException();
+            return DB.GetOwnedPackagesByEmail(email);
         }
 
         public List<Package> GetPackagesByTag(string tag)
         {
-            throw new System.NotImplementedException();
+            return DB.GetPackagesByTag(tag);
+        }        
+
+        public void GrantRight(Right newRight)
+        {
+            DB.GrantRight(newRight);
         }
 
-        public void GrantRights(int iId, List<string> emails, RightType Type)
+        public Right GetRight(string email, int itemId)
         {
-            throw new System.NotImplementedException();
+            return DB.GetRight(itemId, email);
         }
 
-        public HashSet<Right> GetRights(int? itemId = null, string email = null)
+        public void UpdateRight(Right updatedRight)
         {
-            throw new System.NotImplementedException();
+            DB.UpdateRight(updatedRight);
         }
 
-        public void UpdateRights(int iId, List<string> emails, RightType Type)
+        public void DropRight(string email, int itemId)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public void DropRights(int iId, List<string> emails)
-        {
-            throw new System.NotImplementedException();
+            DB.DropRight(email, itemId);
         }
 
         public List<FileInfo> SearchFileInfos(string query)

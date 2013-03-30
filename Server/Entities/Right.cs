@@ -10,15 +10,42 @@ namespace Server.Entities
         public string UserEmail { get; set; }
 
         [Key, Column(Order = 1)]
-        public int PackageId { get; set; }
+        public int ItemId { get; set; }
 
         [Required]
         public RightType Type { get; set; }
 
-        public DateTime? Expires { get; set; }
+        public DateTime? Until { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual Item Item { get; set; }
 
-        public virtual Package Package { get; set; }
+        public static explicit operator Right(DataContracts.Right right)
+        {
+            if (right == null)
+                return null;
+
+            return new Right
+            {
+                UserEmail = right.UserEmail,
+                ItemId = right.ItemId,
+                Type = right.Type,
+                Until = right.Until,
+                Item = DatabaseController.GetItemById(right.ItemId)
+            };
+        }
+
+        public static explicit operator DataContracts.Right(Right right)
+        {
+            if (right == null)
+                return null;
+
+            return new DataContracts.Right
+            {
+                UserEmail = right.UserEmail,
+                ItemId = right.ItemId,
+                Type = right.Type,
+                Until = right.Until
+            };
+        }
     }
 }
