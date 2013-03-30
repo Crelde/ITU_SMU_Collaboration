@@ -1,0 +1,12 @@
+Problem
+When a User is deleted it should cascade delete
+ Rights
+ Owned Items
+
+Although, we can't do both.
+So we should manually delete owned files.
+
+
+Same goes for memberships,
+
+Same goes for Rights
