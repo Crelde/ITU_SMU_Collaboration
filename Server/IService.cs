@@ -4,91 +4,100 @@ using System.ServiceModel;
 
 namespace Server
 {
-    [ServiceContract]
+    [ServiceContract(
+        SessionMode = SessionMode.Required
+    )]
     public interface IService
     {
-        [OperationContract]
+        [OperationContract(IsInitiating = true)]
+        void LogIn(string user, string password);
+
+        [OperationContract(IsInitiating = false, IsTerminating = true)]
+        void LogOut();
+        
+        // TODO - maybe this one should be session-initiating as well?
+        [OperationContract(IsInitiating = false)]
         void CreateUser(User newUser);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         User GetUserByEmail(string email);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void UpdateUser(User updatedUser);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void DeleteUserByEmail(string email);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         int UploadFile(FileTransfer transfer);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         byte[] DownloadFileById(int fileId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         FileInfo GetFileInfoById(int fileId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void UpdateFileInfo(FileInfo updatedInfo);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void UpdateFileData(byte[] updatedData, int fileId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void DeleteFileById(int fileId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         HashSet<FileInfo> GetOwnedFileInfosByEmail(string email);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void AddTag(string tag, int itemId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void DropTag(string tag, int itemId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         List<string> GetTagsByItemId(int ïtemId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         List<FileInfo> GetFileInfosByTag(string tag);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         int CreatePackage(Package newPackage);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         Package GetPackageById(int packageId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void AddToPackage(List<int> fileIds, int packageId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void RemoveFromPackage(List<int> fileIds, int packageId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void DeletePackageById(int packageId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         HashSet<Package> GetOwnedPackagesByEmail(string email);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         List<Package> GetPackagesByTag(string tag);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void GrantRight(Right newRight);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         Right GetRight(string email, int itemId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void UpdateRight(Right updatedRight);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         void DropRight(string email, int itemId);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         List<FileInfo> SearchFileInfos(string text);
 
-        [OperationContract]
+        [OperationContract(IsInitiating = false)]
         List<Package> SearchPackages(string text);
     }
 }

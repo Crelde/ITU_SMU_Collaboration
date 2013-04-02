@@ -1,11 +1,33 @@
-﻿using Server.DataContracts;
+﻿using System.ServiceModel;
+using Server.DataContracts;
 using System.Collections.Generic;
 using DB = Server.DatabaseController;
 
 namespace Server
 {
+    [ServiceBehavior(
+        ConcurrencyMode = ConcurrencyMode.Single,
+        InstanceContextMode = InstanceContextMode.PerSession
+        )]
     public class Service : IService
     {
+        // put session-unique variables here
+        Entities.User currentUser; // The user currently logged in
+
+        public void LogIn(string email, string password)
+        {
+            // TODO - proper implementation of method, 
+            // including email/password checking
+            currentUser = new Entities.User();
+        }
+
+        public void LogOut()
+        {
+            // TODO - consider doing any cleanup work here
+        }
+
+
+
         /// <summary>
         /// Create a new User on the service.
         /// </summary>
