@@ -7,179 +7,88 @@ namespace Server
     [ServiceContract]
     public interface IService
     {
-        /*
-         * Creates a new User, using the newUser object.
-         */
         [OperationContract]
         void CreateUser(User newUser);
 
-        /*
-         * Returns the User with the given email.
-         */
         [OperationContract]
         User GetUserByEmail(string email);
 
-        /*
-         * Finds the User having the same Email as updatedUser and replaces the rest
-         * of its details with the ones in updatedUser.
-         */
         [OperationContract]
         void UpdateUser(User updatedUser);
 
-        /*
-         * Deletes the User with the given email.
-         */
         [OperationContract]
         void DeleteUserByEmail(string email);
 
-        /*
-         * Uploads the binary data and FileInfo contained in the transfer object.
-         * Returns the Id that the newly created File has been granted.
-         */
         [OperationContract]
         int UploadFile(FileTransfer transfer);
 
-        /*
-         * Downloads the binary data of the File with the given fId.
-         */
         [OperationContract]
-        byte[] DownloadFileById(int fId);
+        byte[] DownloadFileById(int fileId);
 
-        /*
-         * Returns the FileInfo of the File with the given fId.
-         */
         [OperationContract]
-        FileInfo GetFileInfoById(int fId);
+        FileInfo GetFileInfoById(int fileId);
 
-        /*
-         * Updates the File that matches updatedInfo's Id
-         * with the details contained within.
-         */
         [OperationContract]
         void UpdateFileInfo(FileInfo updatedInfo);
 
-        /*
-         * Updates the File with mathcing fId with the givne updatedData.
-         */
         [OperationContract]
-        void UpdateFileData(byte[] updatedData, int fId);
+        void UpdateFileData(byte[] updatedData, int fileId);
 
-        /*
-         * Deletes the File with the matching fId.
-         */
         [OperationContract]
-        void DeleteFileById(int fId);
+        void DeleteFileById(int fileId);
 
-        /*
-         * Returns the FileInfos of the Files owned by the User with the given email.
-         */
         [OperationContract]
         HashSet<FileInfo> GetOwnedFileInfosByEmail(string email);
 
-        /*
-         * Adds the given tag text to the item with the given Id.
-         */
         [OperationContract]
-        void AddTag(string text, int iId);
+        void AddTag(string tag, int itemId);
 
-        /*
-         * Removes the given tag text from the item with the given Id.
-         */
         [OperationContract]
-        void DropTag(string text, int iId);
+        void DropTag(string tag, int itemId);
 
-        /*
-         * Returns the tags that the Item with the given Id has.
-         */
         [OperationContract]
-        List<string> GetTagsByItemId(int iId);
+        List<string> GetTagsByItemId(int ïtemId);
 
-        /*
-         * Returns the FileInfos that contain the given tag.
-         */
         [OperationContract]
         List<FileInfo> GetFileInfosByTag(string tag);
 
-        /*
-         * Creates the given Package on the service.
-         */
         [OperationContract]
         int CreatePackage(Package newPackage);
 
-        /*
-         * Returns the Package with the matching pId.
-         */
         [OperationContract]
-        Package GetPackageById(int pId);
+        Package GetPackageById(int packageId);
 
-        /*
-         * Adds the Files with matching pIds to the Package with the macthing pId.
-         */
         [OperationContract]
-        void AddToPackage(List<int> fIds, int pId);
+        void AddToPackage(List<int> fileIds, int packageId);
 
-        /*
-         * Removes the Files with matching pIds from the Package with the macthing pId.
-         */
         [OperationContract]
-        void RemoveFromPackage(List<int> fIds, int pId);
+        void RemoveFromPackage(List<int> fileIds, int packageId);
 
-        /*
-         * Deletes the Package with the matching pId.
-         */
         [OperationContract]
-        void DeletePackageById(int pId);
+        void DeletePackageById(int packageId);
 
-        /*
-         * Returns the Packages owned by the User with the given email.
-         * NOTE - Should it just be Owned, or also Packages with View/Edit rights?
-         */
         [OperationContract]
         HashSet<Package> GetOwnedPackagesByEmail(string email);
 
-        /*
-         * Returns the Packages that contain the given tag.
-         */
         [OperationContract]
         List<Package> GetPackagesByTag(string tag);
 
-        /*
-         * Adds the given right to the service.
-         */
         [OperationContract]
         void GrantRight(Right newRight);
 
-        /*
-         * Returns the right associated with the User with the given email,
-         * and the Item with the given itemId.
-         */
         [OperationContract]
         Right GetRight(string email, int itemId);
 
-        /*
-         * Updates the exising right that has matching UserEmail and ItemId fields,
-         * with the rest of the fields from the given updatedRight.
-         */
         [OperationContract]
         void UpdateRight(Right updatedRight);
 
-        /*
-         * Removes the right associated with the User with the given email address,
-         * and the Item with the given Id.
-         */
         [OperationContract]
         void DropRight(string email, int itemId);
 
-        /*
-         * Returns a List of FileInfos that match the given search query in some fashion.
-         */
         [OperationContract]
-        List<FileInfo> SearchFileInfos(string query);
+        List<FileInfo> SearchFileInfos(string text);
 
-        /*
-         * Returns a List of Packages that match the given search query in some fashion.
-         */
         [OperationContract]
-        List<Package> SearchPackages(string query);
+        List<Package> SearchPackages(string text);
     }
 }

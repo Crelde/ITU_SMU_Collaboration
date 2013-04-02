@@ -69,7 +69,7 @@
     <Compile Include="IService.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RentingContext.cs" />
+    <Compile Include="DatabaseContext.cs" />
     <Compile Include="Service.cs" />
   </ItemGroup>
   <ItemGroup>
