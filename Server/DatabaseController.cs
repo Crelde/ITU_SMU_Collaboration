@@ -16,11 +16,26 @@ namespace Server
 
             using (var db = new DatabaseContext())
             {
-                db.Users.Add((User)newUser);
-                db.SaveChanges();
+                try
+                {
+                    db.Users.Add((User)newUser);
+                    db.SaveChanges();
+                }
+
+                // We should set something up that informs the user that the user was not added
+                // But im not quite sure how to do that yet, since we haven't talked about the client yet
+                catch (DataException e)
+                {
+                    return;
+                }
+                finally
+                {
+                // In the same fashion we could tell the user that it succeded, 
+                }
             }
         }
 
+        // This method returns null if no user exists by that email.
         [Pure]
         public static DataContracts.User GetUserByEmail(string email)
         {
@@ -42,8 +57,16 @@ namespace Server
             using (var db = new DatabaseContext())
             {
                 var outdatedUser = db.Users.Find(updatedUser.Email);
-                db.Entry(outdatedUser).CurrentValues.SetValues(updatedUser);
-                db.SaveChanges();
+                if (outdatedUser != null)// added check so program doesn't terminate
+                {
+                    db.Entry(outdatedUser).CurrentValues.SetValues(updatedUser);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    // CreateUser(updatedUser);   TODO: Discuss if create a new user or return.
+                    System.Console.WriteLine("User doesn't exist");
+                }
             }
         }
 
@@ -54,9 +77,16 @@ namespace Server
             Contract.Ensures(GetUserByEmail(email) == null);
 
             using (var db = new DatabaseContext())
-            {                
-                db.Entry(db.Users.Find(email)).State = EntityState.Deleted;
-                db.SaveChanges();                
+            {
+                try
+                {
+                    db.Entry(db.Users.Find(email)).State = EntityState.Deleted;
+                    db.SaveChanges();
+                }
+                catch (System.ArgumentNullException e)//Caught when no user exist by the email
+                {
+                    return;
+                }
             }
         }
 
