@@ -26,5 +26,12 @@ namespace Server.DataContracts
 
         [DataMember]
         public string Origin { get; set; }
+
+        public override bool IsProper()
+        {
+            return
+                base.IsProper() && 
+                this.Type != null;
+        }
     }
 }

@@ -4,7 +4,7 @@
 namespace Server.DataContracts
 {
     [DataContract]
-    public class User
+    public class User : Proper
     {
         [DataMember]
         public string Email { get; set; }
@@ -14,5 +14,13 @@ namespace Server.DataContracts
 
         [DataMember]
         public UserType Type { get; set; }
+
+        public override bool IsProper()
+        {
+            return
+                this.Email != null &&
+                this.Password != null &&
+                this.Type != null;
+        }
     }
 }

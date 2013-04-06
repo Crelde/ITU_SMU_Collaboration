@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Server.DataContracts
 {
     [DataContract]
-    public abstract class Item
+    public abstract class Item : Proper
     {
         public Item()
         {
@@ -26,5 +26,12 @@ namespace Server.DataContracts
 
         [DataMember]
         public string OwnerEmail { get; set; }
+
+        public override bool IsProper()
+        {
+            return
+                this.Name != null &&
+                this.OwnerEmail != null;
+        }
     }
 }

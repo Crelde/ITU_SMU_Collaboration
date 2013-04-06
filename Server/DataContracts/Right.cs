@@ -17,5 +17,13 @@ namespace Server.DataContracts
        
         [DataMember]
         public DateTime? Until { get; set; }
+
+        public override bool IsProper()
+        {
+            return
+                this.UserEmail != null &&
+                this.Type != null &&
+                this.ItemId >= 0;
+        }
     }
 }

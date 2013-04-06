@@ -56,6 +56,7 @@
     <Compile Include="DataContracts\FileTransfer.cs" />
     <Compile Include="DataContracts\Item.cs" />
     <Compile Include="DataContracts\Package.cs" />
+    <Compile Include="DataContracts\Proper.cs" />
     <Compile Include="DataContracts\Right.cs" />
     <Compile Include="DataContracts\User.cs" />
     <Compile Include="Entities\File.cs" />

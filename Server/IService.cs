@@ -47,7 +47,7 @@ namespace Server
         void DropTag(string tag, int itemId);
 
         [OperationContract]
-        List<string> GetTagsByItemId(int ïtemId);
+        List<string> GetTagsByItemId(int itemId);
 
         [OperationContract]
         List<FileInfo> GetFileInfosByTag(string tag);

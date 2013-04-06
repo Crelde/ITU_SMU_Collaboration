@@ -3,7 +3,7 @@
 namespace Server.DataContracts
 {
     [DataContract]
-    public class FileTransfer
+    public class FileTransfer : Proper
     {
         public FileTransfer() {
             Data = null;
@@ -14,5 +14,13 @@ namespace Server.DataContracts
         public byte[] Data { get; set; }
         [DataMember]
         public FileInfo Info { get; set; }
+
+        public override bool IsProper()
+        {
+            return
+                Data != null &&
+                Info != null &&
+                Info.IsProper();
+        }
     }
 }
