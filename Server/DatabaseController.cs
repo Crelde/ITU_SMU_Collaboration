@@ -96,7 +96,7 @@ namespace Server
             Contract.Requires(GetFileInfoById(fId) != null);
             Contract.Ensures(Contract.Result<byte[]>() != null);
             var file = GetFileById(fId);
-            return file == null ? null : file.Data;
+            return file.Data;
         }
 
         [Pure]
