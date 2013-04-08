@@ -177,7 +177,7 @@ namespace Server
 
         public static void AddTag(string text, int iId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(text != null);
 
             using (var db = new DatabaseContext())
             {
@@ -191,7 +191,8 @@ namespace Server
 
         public static void DropTag(string text, int iId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(text != null && iId != null);
+            Contract.Ensures(
 
             using (var db = new DatabaseContext())
             {
@@ -206,7 +207,7 @@ namespace Server
         [Pure]
         public static List<string> GetTagsByItemId(int iId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(iId != null);
 
             using (var db = new DatabaseContext())
             {
@@ -218,7 +219,7 @@ namespace Server
         [Pure]
         public static List<DataContracts.FileInfo> GetFileInfosByTag(string tag)
         {
-            // TODO - Add Contracts maybe..? :-S
+            Contract.Requires(tag != null);
 
             using (var db = new DatabaseContext())
             {
@@ -238,7 +239,10 @@ namespace Server
 
         public static int CreatePackage(DataContracts.Package newPackage)
         {
-            // TODO - Add contracts.
+            Contract.Requires(newPackage != null);
+            Contract.Requires(GetPackageById(newPackage.Id) == null);
+            Contract.Ensures(GetPackageById(newPackage.Id) != null);
+            Contract.Ensures(GetPackageById(newPackage.Id).Equals(newPackage));
 
             using (var db = new DatabaseContext())
             {
@@ -266,7 +270,8 @@ namespace Server
         [Pure]
         public static DataContracts.Package GetPackageById(int pId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(pId != null);
+            Contract.Ensures(Contract.Result<DataContracts.Package>().Id == pId);
 
             using (var db = new DatabaseContext())
             {
@@ -276,7 +281,8 @@ namespace Server
 
         public static void AddToPackage(List<int> fIds, int pId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(fIds != null && pId != null);
+            Contract.Ensures(Contract.OldValue(GetPackageById(pId).FileIds.Count) == GetPackageById(pId).FileIds.Count - fIds.Count);
 
             using (var db = new DatabaseContext())
             {
@@ -294,7 +300,8 @@ namespace Server
 
         public static void RemoveFromPackage(List<int> fIds, int pId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(fIds != null && pId != null);
+            Contract.Ensures(Contract.OldValue(GetPackageById(pId).FileIds.Count) == GetPackageById(pId).FileIds.Count + fIds.Count);
 
             using (var db = new DatabaseContext())
             {
@@ -308,7 +315,8 @@ namespace Server
 
         public static void DeletePackageById(int pId)
         {
-            // TODO - Add contracts.
+            Contract.Requires(pId != null);
+            Contract.Ensures(GetPackageById(pId) == null);
 
             using (var db = new DatabaseContext())
             {
@@ -320,7 +328,8 @@ namespace Server
         [Pure]
         public static HashSet<DataContracts.Package> GetOwnedPackagesByEmail(string email)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(email != null);
+            
 
             using (var db = new DatabaseContext())
             {
@@ -340,7 +349,7 @@ namespace Server
         [Pure]
         public static List<DataContracts.Package> GetPackagesByTag(string tag)
         {
-            // TODO - Add Contracts maybe..? :-S
+            Contract.Requires(tag != null);
 
             using (var db = new DatabaseContext())
             {
@@ -360,7 +369,7 @@ namespace Server
 
         public static void GrantRight(DataContracts.Right newRight)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(newRight != null);
 
             using (var db = new DatabaseContext())
             {
@@ -374,7 +383,7 @@ namespace Server
         [Pure]
         public static DataContracts.Right GetRight(int itemId, string email)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(itemId != null && email != null);
 
             using (var db = new DatabaseContext())
             {
@@ -384,7 +393,7 @@ namespace Server
 
         public static void UpdateRight(DataContracts.Right updatedRight)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(updatedRight != null);
 
             using (var db = new DatabaseContext())
             {
@@ -396,7 +405,8 @@ namespace Server
 
         public static void DropRight(string email, int itemId)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(email != null && itemId != null);
+            Contract.Ensures(GetRight(itemId, email) == null);
 
             using (var db = new DatabaseContext())
             {
@@ -408,7 +418,8 @@ namespace Server
         [Pure]
         public static List<DataContracts.FileInfo> SearchFileInfos(string query)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(query != null);
+
 
             using (var db = new DatabaseContext())
             {
@@ -436,7 +447,7 @@ namespace Server
         [Pure]
         public static List<DataContracts.Package> SearchPackages(string query)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(query != null);
 
             using (var db = new DatabaseContext())
             {
@@ -463,7 +474,8 @@ namespace Server
         [Pure]
         public static File GetFileById(int fId)
         {
-            // TODO - Add Contracts.
+            Contract.Requires(fId != null);
+            Contract.Ensures(Contract.Result<File>().Id == fId);
 
             using (var db = new DatabaseContext())
             {
@@ -472,7 +484,8 @@ namespace Server
         }
 
         public static Item GetItemById(int itemId) {
-            // TODO - Add Contracts.
+            Contract.Requires(itemId != null);
+            Contract.Ensures(Contract.Result<Item>().Id == itemId);
 
             using (var db = new DatabaseContext())
             {
